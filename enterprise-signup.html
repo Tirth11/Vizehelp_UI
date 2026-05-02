@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vizehelp | Enterprise Signup</title>
+<link rel="stylesheet" href="css/design-system.css">
+<style>
+.signup-nav{background:var(--white);border-bottom:1px solid var(--slate-200);padding:1rem 5%;display:flex;justify-content:space-between;align-items:center}
+.logo{font-size:1.3rem;font-weight:800}.logo span{color:var(--primary)}
+.signup-wrap{max-width:720px;margin:2.5rem auto;padding:0 1rem}
+
+/* STEPPER */
+.stepper{display:flex;justify-content:space-between;margin-bottom:2.5rem;position:relative}
+.stepper::before{content:'';position:absolute;top:18px;left:30px;right:30px;height:2px;background:var(--slate-200);z-index:0}
+.step-dot{display:flex;flex-direction:column;align-items:center;position:relative;z-index:1}
+.step-circle{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:.82rem;border:2px solid var(--slate-200);background:var(--white);color:var(--slate-400);transition:.3s}
+.step-dot.active .step-circle{border-color:var(--primary);background:var(--primary);color:var(--white)}
+.step-dot.done .step-circle{border-color:var(--success);background:var(--success);color:var(--white)}
+.step-label{font-size:.68rem;font-weight:600;color:var(--slate-400);margin-top:.5rem;white-space:nowrap}
+.step-dot.active .step-label{color:var(--primary)}
+.step-dot.done .step-label{color:var(--success)}
+
+/* FORM */
+.form-card{background:var(--white);padding:2.5rem;border-radius:var(--radius-xl);box-shadow:var(--shadow-lg);border:1px solid var(--slate-200)}
+.form-title{font-size:1.4rem;margin-bottom:.35rem}
+.form-subtitle{color:var(--slate-500);font-size:.9rem;margin-bottom:2rem}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:1.25rem}
+.form-actions{display:flex;justify-content:space-between;margin-top:2rem;padding-top:1.5rem;border-top:1px solid var(--slate-100)}
+
+/* PLAN CARDS (Step 4) */
+.plan-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-top:1.5rem}
+.plan-option{border:2px solid var(--slate-200);border-radius:var(--radius-lg);padding:1.25rem;cursor:pointer;transition:.2s;position:relative}
+.plan-option:hover,.plan-option.selected{border-color:var(--primary);background:var(--primary-light)}
+.plan-option.selected::after{content:'✓';position:absolute;top:.75rem;right:.75rem;background:var(--primary);color:var(--white);width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.7rem;font-weight:800}
+
+/* DOC UPLOAD */
+.upload-zone{border:2px dashed var(--slate-300);border-radius:var(--radius-lg);padding:2rem;text-align:center;cursor:pointer;transition:.2s;margin-bottom:1rem}
+.upload-zone:hover{border-color:var(--primary);background:var(--primary-light)}
+.upload-icon{font-size:1.75rem;margin-bottom:.5rem}
+.uploaded-file{display:flex;align-items:center;gap:.75rem;padding:.75rem 1rem;background:var(--slate-50);border:1px solid var(--slate-200);border-radius:var(--radius);margin-bottom:.5rem}
+
+/* REVIEW */
+.review-section{border:1px solid var(--slate-200);border-radius:var(--radius-lg);padding:1.5rem;margin-bottom:1rem}
+.review-section h4{font-size:.9rem;color:var(--primary);margin-bottom:1rem;display:flex;align-items:center;gap:.5rem}
+.review-row{display:flex;justify-content:space-between;padding:.5rem 0;font-size:.85rem;border-bottom:1px solid var(--slate-100)}
+.review-row:last-child{border:none}
+.review-label{color:var(--slate-500)}
+
+/* SUCCESS */
+.success-screen{text-align:center;padding:4rem 2rem}
+.success-icon{width:80px;height:80px;background:var(--success-light);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 1.5rem;font-size:2rem}
+.success-screen h2{font-size:1.5rem;margin-bottom:.75rem}
+.success-screen p{color:var(--slate-500);max-width:450px;margin:0 auto 2rem}
+
+.checkbox-row{display:flex;align-items:flex-start;gap:.75rem;margin-bottom:1rem}
+.checkbox-row input[type="checkbox"]{margin-top:3px;accent-color:var(--primary)}
+.checkbox-row label{font-size:.85rem;color:var(--slate-700)}
+
+@media(max-width:768px){.form-row,.plan-grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<nav class="signup-nav">
+    <div class="logo">Vizehelp <span>EVHelpBuddy</span></div>
+    <a href="enterprise-landing.html" style="font-size:.85rem;color:var(--slate-500);font-weight:600">← Back to Home</a>
+</nav>
+
+<div class="signup-wrap">
+    <!-- STEPPER -->
+    <div class="stepper" id="stepper">
+        <div class="step-dot active" data-step="1"><div class="step-circle">1</div><div class="step-label">Business</div></div>
+        <div class="step-dot" data-step="2"><div class="step-circle">2</div><div class="step-label">Contact</div></div>
+        <div class="step-dot" data-step="3"><div class="step-circle">3</div><div class="step-label">Address</div></div>
+        <div class="step-dot" data-step="4"><div class="step-circle">4</div><div class="step-label">Plan</div></div>
+        <div class="step-dot" data-step="5"><div class="step-circle">5</div><div class="step-label">Documents</div></div>
+        <div class="step-dot" data-step="6"><div class="step-circle">6</div><div class="step-label">Review</div></div>
+    </div>
+
+    <!-- STEP 1: Business Info -->
+    <div class="form-card step-panel" id="step-1">
+        <h2 class="form-title">Business Information</h2>
+        <p class="form-subtitle">Tell us about your company to begin the verification process.</p>
+        <div class="form-row">
+            <div class="form-group"><label class="form-label">Company Name *</label><input class="form-input" placeholder="e.g. EcoFleet Rental NYC"></div>
+            <div class="form-group"><label class="form-label">Business Type *</label><select class="form-input"><option value="">Select type...</option><option>Corporate Office</option><option>Hotel / Hospitality</option><option>Residential Society</option><option>Mall / Retail</option><option>EV Fleet Operator</option><option>Parking Operator</option><option>Car Dealership</option><option>Airport</option><option>University / Campus</option><option>Commercial Real Estate</option></select></div>
+        </div>
+        <div class="form-row">
+            <div class="form-group"><label class="form-label">Website URL</label><input class="form-input" placeholder="https://"></div>
+            <div class="form-group"><label class="form-label">Business Registration / EIN *</label><input class="form-input" placeholder="XX-XXXXXXX"></div>
+        </div>
+        <div class="form-row">
+            <div class="form-group"><label class="form-label">Tax ID</label><input class="form-input" placeholder="Tax identification number"></div>
+            <div class="form-group"><label class="form-label">Number of Business Locations *</label><input class="form-input" type="number" placeholder="1" min="1"></div>
+        </div>
+        <div class="form-row">
+            <div class="form-group"><label class="form-label">Expected Monthly Orders *</label><select class="form-input"><option>0 – 50</option><option>50 – 200</option><option>200 – 750</option><option>750+</option></select></div>
+            <div class="form-group"><label class="form-label">Preferred City / Operating Area *</label><input class="form-input" placeholder="e.g. New York, NY"></div>
+        </div>
+        <div class="form-actions"><div></div><button class="btn btn-primary" onclick="goStep(2)">Save & Continue →</button></div>
+    </div>
+
+    <!-- STEP 2: Authorized Contact -->
+    <div class="form-card step-panel hidden" id="step-2">
+        <h2 class="form-title">Authorized Contact Person</h2>
+        <p class="form-subtitle">This person will be the primary admin for your enterprise account.</p>
+        <div class="form-row">
+            <div class="form-group"><label class="form-label">Full Name *</label><input class="form-input" placeholder="John Smith"></div>
+            <div class="form-group"><label class="form-label">Job Title *</label><input class="form-input" placeholder="Operations Manager"></div>
+        </div>
+        <div class="form-row">
+            <div class="form-group"><label class="form-label">Business Email *</label><input class="form-input" type="email" placeholder="john@company.com"></div>
+            <div class="form-group"><label class="form-label">Mobile Number *</label><input class="form-input" placeholder="+1 (555) 000-0000"></div>
+        </div>
+        <div class="form-row">
+            <div class="form-group"><label class="form-label">Password *</label><input class="form-input" type="password" placeholder="Min. 8 characters"></div>
+            <div class="form-group"><label class="form-label">Confirm Password *</label><input class="form-input" type="password" placeholder="Re-enter password"></div>
+        </div>
+        <div class="form-actions"><button class="btn btn-outline" onclick="goStep(1)">← Back</button><button class="btn btn-primary" onclick="goStep(3)">Save & Continue →</button></div>
+    </div>
+
+    <!-- STEP 3: Business Address -->
+    <div class="form-card step-panel hidden" id="step-3">
+        <h2 class="form-title">Business Address</h2>
+        <p class="form-subtitle">Your company's registered or operational headquarters address.</p>
+        <div class="form-group"><label class="form-label">Address Line 1 *</label><input class="form-input" placeholder="Street address"></div>
+        <div class="form-group"><label class="form-label">Address Line 2</label><input class="form-input" placeholder="Suite, floor, building (optional)"></div>
+        <div class="form-row">
+            <div class="form-group"><label class="form-label">City *</label><input class="form-input" placeholder="New York"></div>
+            <div class="form-group"><label class="form-label">State *</label><input class="form-input" placeholder="NY"></div>
+        </div>
+        <div class="form-row">
+            <div class="form-group"><label class="form-label">Country *</label><select class="form-input"><option>United States</option><option>Canada</option><option>United Kingdom</option><option>India</option><option>Germany</option></select></div>
+            <div class="form-group"><label class="form-label">ZIP / Postal Code *</label><input class="form-input" placeholder="10001"></div>
+        </div>
+        <div class="form-actions"><button class="btn btn-outline" onclick="goStep(2)">← Back</button><button class="btn btn-primary" onclick="goStep(4)">Save & Continue →</button></div>
+    </div>
+
+    <!-- STEP 4: Plan Selection -->
+    <div class="form-card step-panel hidden" id="step-4">
+        <h2 class="form-title">Select Your Plan</h2>
+        <p class="form-subtitle">Choose the plan that fits your operational needs. You can upgrade anytime.</p>
+        <div class="plan-grid">
+            <div class="plan-option" onclick="selectPlan(this)">
+                <div style="font-weight:800;font-size:1rem;margin-bottom:.25rem">Basic — $299/mo</div>
+                <div style="font-size:.78rem;color:var(--slate-500);margin-bottom:.75rem">Small offices, small hotels, residential societies</div>
+                <div style="font-size:.78rem;color:var(--slate-700)">1 location · 10 buddies · 50 orders/mo</div>
+            </div>
+            <div class="plan-option selected" onclick="selectPlan(this)">
+                <div class="badge badge-primary" style="margin-bottom:.5rem">MOST POPULAR</div>
+                <div style="font-weight:800;font-size:1rem;margin-bottom:.25rem">Standard — $799/mo</div>
+                <div style="font-size:.78rem;color:var(--slate-500);margin-bottom:.75rem">Malls, hotels, mid-size offices</div>
+                <div style="font-size:.78rem;color:var(--slate-700)">5 locations · 25 buddies · 200 orders/mo</div>
+            </div>
+            <div class="plan-option" onclick="selectPlan(this)">
+                <div style="font-weight:800;font-size:1rem;margin-bottom:.25rem">Advanced — $1,999/mo</div>
+                <div style="font-size:.78rem;color:var(--slate-500);margin-bottom:.75rem">Large offices, parking operators, dealerships</div>
+                <div style="font-size:.78rem;color:var(--slate-700)">20 locations · 75 buddies · 750 orders/mo</div>
+            </div>
+            <div class="plan-option" onclick="selectPlan(this)">
+                <div style="font-weight:800;font-size:1rem;margin-bottom:.25rem">Enterprise — Custom</div>
+                <div style="font-size:.78rem;color:var(--slate-500);margin-bottom:.75rem">Fleets, airports, large campuses</div>
+                <div style="font-size:.78rem;color:var(--slate-700)">Custom locations · API · White-label · Dedicated AM</div>
+            </div>
+        </div>
+        <div class="form-actions"><button class="btn btn-outline" onclick="goStep(3)">← Back</button><button class="btn btn-primary" onclick="goStep(5)">Save & Continue →</button></div>
+    </div>
+
+    <!-- STEP 5: Document Upload -->
+    <div class="form-card step-panel hidden" id="step-5">
+        <h2 class="form-title">Document Upload</h2>
+        <p class="form-subtitle">Upload your business verification documents for our compliance team.</p>
+        <div class="form-group">
+            <label class="form-label">Business Registration Certificate *</label>
+            <div class="upload-zone" onclick="this.innerHTML='<div class=\'uploaded-file\'><span>📄</span><span style=\'flex:1;font-size:.85rem;font-weight:600\'>Business_Registration.pdf</span><span class=\'badge badge-success\'>Uploaded</span></div>'"><div class="upload-icon">📁</div><div style="font-weight:600;font-size:.88rem">Click to upload or drag and drop</div><div style="font-size:.75rem;color:var(--slate-400);margin-top:.25rem">PDF, JPG, PNG — Max 10MB</div></div>
+        </div>
+        <div class="form-group">
+            <label class="form-label">Tax Document *</label>
+            <div class="upload-zone" onclick="this.innerHTML='<div class=\'uploaded-file\'><span>📄</span><span style=\'flex:1;font-size:.85rem;font-weight:600\'>Tax_Certificate.pdf</span><span class=\'badge badge-success\'>Uploaded</span></div>'"><div class="upload-icon">📁</div><div style="font-weight:600;font-size:.88rem">Click to upload or drag and drop</div><div style="font-size:.75rem;color:var(--slate-400);margin-top:.25rem">PDF, JPG, PNG — Max 10MB</div></div>
+        </div>
+        <div class="form-group">
+            <label class="form-label">Authorized Signatory Proof *</label>
+            <div class="upload-zone" onclick="this.innerHTML='<div class=\'uploaded-file\'><span>📄</span><span style=\'flex:1;font-size:.85rem;font-weight:600\'>Signatory_ID.jpg</span><span class=\'badge badge-success\'>Uploaded</span></div>'"><div class="upload-icon">📁</div><div style="font-weight:600;font-size:.88rem">Click to upload or drag and drop</div><div style="font-size:.75rem;color:var(--slate-400);margin-top:.25rem">PDF, JPG, PNG — Max 10MB</div></div>
+        </div>
+        <div class="form-group">
+            <label class="form-label">Agreement / Contract (Optional)</label>
+            <div class="upload-zone"><div class="upload-icon">📁</div><div style="font-weight:600;font-size:.88rem">Click to upload or drag and drop</div><div style="font-size:.75rem;color:var(--slate-400);margin-top:.25rem">PDF — Max 10MB</div></div>
+        </div>
+        <div class="form-actions"><button class="btn btn-outline" onclick="goStep(4)">← Back</button><button class="btn btn-primary" onclick="goStep(6)">Save & Continue →</button></div>
+    </div>
+
+    <!-- STEP 6: Review & Submit -->
+    <div class="form-card step-panel hidden" id="step-6">
+        <h2 class="form-title">Review & Submit</h2>
+        <p class="form-subtitle">Please review your details before submitting for verification.</p>
+        <div class="review-section">
+            <h4>🏢 Business Information</h4>
+            <div class="review-row"><span class="review-label">Company Name</span><span>EcoFleet Rental NYC</span></div>
+            <div class="review-row"><span class="review-label">Business Type</span><span>EV Fleet Operator</span></div>
+            <div class="review-row"><span class="review-label">Registration Number</span><span>12-3456789</span></div>
+            <div class="review-row"><span class="review-label">Expected Monthly Orders</span><span>200 – 750</span></div>
+        </div>
+        <div class="review-section">
+            <h4>👤 Authorized Contact</h4>
+            <div class="review-row"><span class="review-label">Name</span><span>John Smith</span></div>
+            <div class="review-row"><span class="review-label">Email</span><span>john@ecofleet.com</span></div>
+            <div class="review-row"><span class="review-label">Phone</span><span>+1 (555) 123-4567</span></div>
+        </div>
+        <div class="review-section">
+            <h4>📍 Business Address</h4>
+            <div class="review-row"><span class="review-label">Address</span><span>350 5th Ave, Suite 3200, New York, NY 10118</span></div>
+        </div>
+        <div class="review-section">
+            <h4>📋 Selected Plan</h4>
+            <div class="review-row"><span class="review-label">Plan</span><span><span class="badge badge-primary">Standard — $799/mo</span></span></div>
+        </div>
+        <div class="review-section">
+            <h4>📎 Documents</h4>
+            <div class="review-row"><span class="review-label">Business Registration</span><span class="badge badge-success">Uploaded</span></div>
+            <div class="review-row"><span class="review-label">Tax Document</span><span class="badge badge-success">Uploaded</span></div>
+            <div class="review-row"><span class="review-label">Signatory Proof</span><span class="badge badge-success">Uploaded</span></div>
+        </div>
+        <div style="margin-top:1.5rem">
+            <div class="checkbox-row"><input type="checkbox" checked><label>I confirm I am authorized to register this business on Vizehelp EVHelpBuddy.</label></div>
+            <div class="checkbox-row"><input type="checkbox" checked><label>I agree to Vizehelp terms and service agreement.</label></div>
+            <div class="checkbox-row"><input type="checkbox" checked><label>I agree to buddy verification, customer safety, and operational policies.</label></div>
+        </div>
+        <div class="form-actions"><button class="btn btn-outline" onclick="goStep(5)">← Back</button><button class="btn btn-primary btn-lg" onclick="submitForm()">Submit for Verification →</button></div>
+    </div>
+
+    <!-- SUCCESS SCREEN -->
+    <div class="form-card step-panel hidden" id="step-success">
+        <div class="success-screen">
+            <div class="success-icon">✓</div>
+            <h2>Your enterprise account is under review</h2>
+            <p>Thank you for registering with Vizehelp EVHelpBuddy. Our team will verify your business details and notify you once your account is approved. This usually takes 24–48 hours.</p>
+            <div style="display:flex;gap:1rem;justify-content:center">
+                <a href="enterprise-dashboard.html" class="btn btn-primary">Go to Dashboard</a>
+                <a href="#" class="btn btn-outline">Contact Support</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+let currentStep = 1;
+function goStep(n) {
+    document.querySelectorAll('.step-panel').forEach(p => p.classList.add('hidden'));
+    document.getElementById('step-' + n).classList.remove('hidden');
+    document.getElementById('step-' + n).classList.add('animate-in');
+    document.querySelectorAll('.step-dot').forEach(d => {
+        const s = parseInt(d.dataset.step);
+        d.classList.remove('active', 'done');
+        if (s < n) d.classList.add('done');
+        if (s === n) d.classList.add('active');
+    });
+    currentStep = n;
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+function selectPlan(el) {
+    document.querySelectorAll('.plan-option').forEach(p => p.classList.remove('selected'));
+    el.classList.add('selected');
+}
+function submitForm() {
+    document.querySelectorAll('.step-panel').forEach(p => p.classList.add('hidden'));
+    document.getElementById('step-success').classList.remove('hidden');
+    document.querySelectorAll('.step-dot').forEach(d => d.classList.add('done'));
+}
+</script>
+
+</body>
+</html>

@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vizehelp Super Admin | Advanced Control Center</title>
+<link rel="stylesheet" href="css/design-system.css">
+<style>
+body{background:var(--dark-bg);color:var(--dark-text)}
+.layout{display:grid;grid-template-columns:260px 1fr;min-height:100vh}
+.sidebar{background:var(--dark-card);border-right:1px solid var(--dark-border);padding:1.5rem 1rem;height:100vh;position:sticky;top:0;overflow-y:auto}
+.sidebar .logo{font-size:1.15rem;font-weight:800;margin-bottom:2rem;padding:0 .5rem}
+.sidebar .logo span{color:var(--primary)}
+.nav-grp{margin-bottom:1.5rem}
+.nav-lbl{font-size:.65rem;text-transform:uppercase;letter-spacing:.08em;color:var(--dark-muted);font-weight:700;padding:0 .75rem;margin-bottom:.5rem}
+.ni{display:flex;align-items:center;gap:.6rem;padding:.5rem .75rem;border-radius:var(--radius);color:var(--dark-muted);font-weight:600;font-size:.82rem;cursor:pointer;transition:.15s;margin-bottom:.15rem}
+.ni:hover{background:var(--dark-border);color:var(--dark-text)}
+.ni.active{background:rgba(59,130,246,.15);color:var(--primary);border-left:3px solid var(--primary)}
+.ct{margin-left:auto;background:var(--danger);color:#fff;font-size:.6rem;padding:.1rem .4rem;border-radius:var(--radius-full);font-weight:800}
+
+.main{padding:2rem 2.5rem;overflow-y:auto}
+.top{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:2rem}
+.top h1{font-size:1.6rem}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1.25rem;margin-bottom:2rem}
+.st{background:var(--dark-card);border:1px solid var(--dark-border);border-radius:var(--radius-lg);padding:1.25rem;box-shadow:var(--shadow-sm)}
+.st-l{font-size:.7rem;text-transform:uppercase;letter-spacing:.04em;color:var(--dark-muted);font-weight:700}
+.st-v{font-size:1.6rem;font-weight:800;margin-top:.4rem;color:var(--primary)}
+
+.pnl{display:none}.pnl.active{display:block;animation:fadeIn .3s ease}
+.sc{background:var(--dark-card);border:1px solid var(--dark-border);border-radius:var(--radius-lg);overflow:hidden;margin-bottom:1.5rem;box-shadow:var(--shadow-sm)}
+.sc-h{padding:1.25rem 1.5rem;border-bottom:1px solid var(--dark-border);display:flex;justify-content:space-between;align-items:center}
+.sc-h h3{font-size:1.05rem}
+.sc-b{padding:1.5rem}
+
+table.dark{width:100%;border-collapse:collapse}
+table.dark th{text-align:left;padding:1rem;font-size:.75rem;text-transform:uppercase;letter-spacing:.05em;color:var(--dark-muted);border-bottom:1px solid var(--dark-border);font-weight:700;background:rgba(255,255,255,0.02)}
+table.dark td{padding:1rem;border-bottom:1px solid var(--dark-border);font-size:.85rem}
+table.dark tr:hover td{background:rgba(255,255,255,.03)}
+
+.badge-pend{background:rgba(245,158,11,.15);color:var(--warning);border:1px solid rgba(245,158,11,.3);padding:.25rem .7rem;border-radius:var(--radius-full);font-size:.7rem;font-weight:700}
+.badge-ok{background:rgba(16,185,129,.15);color:var(--success);border:1px solid rgba(16,185,129,.3);padding:.25rem .7rem;border-radius:var(--radius-full);font-size:.7rem;font-weight:700}
+.badge-rej{background:rgba(239,68,68,.15);color:var(--danger);border:1px solid rgba(239,68,68,.3);padding:.25rem .7rem;border-radius:var(--radius-full);font-size:.7rem;font-weight:700}
+
+.ba{padding:.4rem .8rem;border-radius:var(--radius-sm);border:1px solid transparent;font-weight:700;cursor:pointer;font-size:.75rem;transition:.2s}
+.ba-p{background:var(--primary);color:#fff}.ba-p:hover{background:var(--primary-dark)}
+.ba-s{background:transparent;border-color:var(--dark-border);color:var(--dark-text)}.ba-s:hover{background:var(--dark-border)}
+
+/* GRID LAYOUTS */
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem}
+.grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem}
+
+/* MULTISELECT DROPDOWN */
+.ms-wrap{position:relative;width:100%}
+.ms-btn{width:100%;padding:.75rem;background:var(--dark-bg);border:1px solid var(--dark-border);border-radius:var(--radius);color:var(--dark-text);text-align:left;display:flex;justify-content:space-between;cursor:pointer;font-size:.85rem}
+.ms-menu{position:absolute;top:100%;left:0;right:0;background:var(--dark-card);border:1px solid var(--dark-border);border-radius:var(--radius);margin-top:.25rem;box-shadow:var(--shadow-lg);display:none;z-index:10;max-height:200px;overflow-y:auto}
+.ms-menu.show{display:block}
+.ms-opt{padding:.5rem .75rem;display:flex;align-items:center;gap:.5rem;cursor:pointer;font-size:.85rem}
+.ms-opt:hover{background:var(--dark-border)}
+.ms-opt input{accent-color:var(--primary)}
+
+.form-input{background:var(--dark-bg);border:1px solid var(--dark-border);color:var(--dark-text);padding:.75rem;border-radius:var(--radius);width:100%;font-size:.85rem}
+.form-label{display:block;font-size:.8rem;color:var(--dark-muted);margin-bottom:.4rem;font-weight:600}
+
+.map-box{height:300px;background:var(--dark-bg);border:1px dashed var(--dark-border);border-radius:var(--radius);display:flex;align-items:center;justify-content:center;color:var(--dark-muted)}
+
+.maker-checker{background:rgba(245,158,11,.1);border:1px solid rgba(245,158,11,.2);padding:1rem;border-radius:var(--radius);display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem}
+</style>
+</head>
+<body>
+<div class="layout">
+<aside class="sidebar">
+<div class="logo">Vizehelp <span>SuperAdmin</span></div>
+
+<div class="nav-grp"><div class="nav-lbl">Monitoring</div>
+<div class="ni active" onclick="sp('dash')">📊 Global Health Dashboard</div>
+<div class="ni" onclick="sp('monitor')">🌐 Live Orders & Interventions</div>
+<div class="ni" onclick="sp('sla')">⚡ SLA & Fraud Alerts</div>
+</div>
+
+<div class="nav-grp"><div class="nav-lbl">Governance & Approvals</div>
+<div class="ni" onclick="sp('kyb')">🏢 Enterprise KYB Workflow<span class="ct">12</span></div>
+<div class="ni" onclick="sp('bver')">🤝 Buddy Global Risk<span class="ct">48</span></div>
+<div class="ni" onclick="sp('maker')">🔐 Maker-Checker Queue<span class="ct">3</span></div>
+</div>
+
+<div class="nav-grp"><div class="nav-lbl">Commercials</div>
+<div class="ni" onclick="sp('pricing')">💎 Pricing & Entitlements</div>
+<div class="ni" onclick="sp('finance')">💰 Payouts & Commission</div>
+</div>
+
+<div class="nav-grp"><div class="nav-lbl">Operations Support</div>
+<div class="ni" onclick="sp('claims')">🛡️ Dispute Governance</div>
+<div class="ni" onclick="sp('support')">🎧 Unified Support Center</div>
+</div>
+
+<div class="nav-grp"><div class="nav-lbl">Master & System</div>
+<div class="ni" onclick="sp('master')">⚙️ Master Data (EVs, Cities)</div>
+<div class="ni" onclick="sp('security')">🔒 Security & Audit Logs</div>
+</div>
+</aside>
+
+<main class="main">
+
+<!-- DASHBOARD -->
+<div class="pnl active" id="p-dash">
+    <div class="top"><div><h1>Global Health Dashboard</h1><p style="color:var(--dark-muted);font-size:.85rem">High-level view of Vizehelp ecosystem</p></div><span class="badge-ok">System Operational</span></div>
+    
+    <div class="stats">
+        <div class="stat"><div class="stat-label">Global Revenue</div><div class="stat-val">$142k</div></div>
+        <div class="stat"><div class="stat-label">10DLC Status</div><div class="stat-val text-success">Verified</div></div>
+        <div class="stat"><div class="stat-label">ACH Pending</div><div class="stat-val">$12.4k</div></div>
+        <div class="stat"><div class="stat-label">Active States</div><div class="stat-val">12</div></div>
+    </div>
+
+    <div class="grid-2">
+        <div class="sc"><div class="sc-h"><h3>Action Required</h3></div>
+            <table class="dark">
+                <tbody>
+                    <tr><td><span class="badge-pend">KYB Review</span> EcoFleet NYC</td><td><button class="ba ba-p" onclick="sp('kyb')">Review</button></td></tr>
+                    <tr><td><span class="badge-pend">Maker-Checker</span> Plan Price Change</td><td><button class="ba ba-p" onclick="sp('maker')">Approve</button></td></tr>
+                    <tr><td><span class="badge-rej">Fraud Alert</span> 4 Orders (Same IP)</td><td><button class="ba ba-s" onclick="sp('sla')">Investigate</button></td></tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="sc"><div class="sc-h"><h3>Platform Revenue Mix</h3></div>
+            <div class="sc-b map-box" style="height:200px;border:none">Pie Chart: Base Fees vs Commissions vs Top-Ups</div>
+        </div>
+    </div>
+</div>
+
+<!-- KYB WORKFLOW -->
+<div class="pnl" id="p-kyb">
+    <div class="top"><div><h1>Enterprise KYB Workflow</h1><p style="color:var(--dark-muted);font-size:.85rem">Approve or reject enterprise onboarding applications</p></div></div>
+    <div class="sc">
+        <table class="dark">
+            <thead><tr><th>Enterprise Name</th><th>Plan Requested</th><th>City</th><th>Documents</th><th>Status</th><th>Action</th></tr></thead>
+            <tbody>
+                <tr><td>EcoFleet Rental NYC</td><td>Advanced</td><td>New York</td><td>3/3 Uploaded</td><td><span class="badge-pend">Under Review</span></td><td><button class="ba ba-p">Audit KYB</button></td></tr>
+                <tr><td>Grand Hyatt EV Services</td><td>Standard</td><td>Chicago</td><td>2/3 Uploaded</td><td><span class="badge-pend">Awaiting Docs</span></td><td><button class="ba ba-s">Send Reminder</button></td></tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- PRICING & ENTITLEMENTS -->
+<div class="pnl" id="p-pricing">
+    <div class="top"><div><h1>Pricing Plan & Feature Entitlements</h1><p style="color:var(--dark-muted);font-size:.85rem">Manage global subscription plans and top-up bundles</p></div><button class="ba ba-p">Create New Plan</button></div>
+    
+    <div class="grid-3">
+        <div class="sc"><div class="sc-b">
+            <h3 style="font-size:1.1rem;margin-bottom:.5rem">Standard Plan <span class="badge-ok" style="float:right">Active</span></h3>
+            <div style="font-size:1.5rem;font-weight:800;color:var(--primary);margin-bottom:1rem">$799/mo</div>
+            <div style="font-size:.8rem;color:var(--dark-muted);margin-bottom:.5rem">Limits:</div>
+            <ul style="font-size:.85rem;padding-left:1.2rem;margin-bottom:1.5rem"><li>5 Locations</li><li>25 Buddies</li><li>200 Orders/mo</li></ul>
+            <div style="font-size:.8rem;color:var(--dark-muted);margin-bottom:.5rem">Allowed Top-ups:</div>
+            <ul style="font-size:.85rem;padding-left:1.2rem;margin-bottom:1.5rem"><li>+5 Buddies ($50)</li><li>+100 Orders ($150)</li></ul>
+            <button class="ba ba-s" style="width:100%">Edit Entitlements</button>
+        </div></div>
+    </div>
+</div>
+
+<!-- GLOBAL MONITOR & EMERGENCY -->
+<div class="pnl" id="p-monitor">
+    <div class="top"><div><h1>Live Global Monitoring</h1><p style="color:var(--dark-muted);font-size:.85rem">Real-time oversight of all enterprise operations</p></div><div class="badge-ok">64 Active Charges Now</div></div>
+    <div class="sc"><div class="sc-b"><div class="map-box">Live Radar Map with Heatmap Overlays</div></div></div>
+    <div class="sc"><div class="sc-h"><h3>Emergency Intervention Queue</h3></div>
+        <table class="dark">
+            <thead><tr><th>Order ID</th><th>Enterprise</th><th>Issue Type</th><th>Duration</th><th>Action</th></tr></thead>
+            <tbody>
+                <tr><td>#ORD-9991</td><td>Hilton Hub</td><td><span class="badge-rej">Vehicle Not Found</span></td><td>14 mins</td><td><button class="ba ba-p">Intervene (Call Buddy)</button></td></tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- PAYMENTS & RECONCILIATION -->
+<div class="pnl" id="p-finance">
+    <div class="top"><div><h1>Commission & Payout Reconciliation</h1><p style="color:var(--dark-muted);font-size:.85rem">Manage platform fees, buddy payouts, and enterprise billing</p></div><button class="ba ba-s">Run Global Reconciliation</button></div>
+    
+    <div class="sc">
+        <div class="sc-h"><h3>Enterprise Commission Cycles</h3></div>
+        <table class="dark">
+            <thead><tr><th>Transaction Cycle</th><th>Enterprise Revenue</th><th>Vizehelp Commission</th><th>Buddy Payouts</th><th>Status</th><th>Action</th></tr></thead>
+            <tbody>
+                <tr><td>May 2026 (MTD)</td><td>$45,200</td><td>$6,780 (15%)</td><td>$38,420</td><td><span class="badge-pend">Accruing</span></td><td><button class="ba ba-s" disabled>Settle</button></td></tr>
+                <tr><td>April 2026</td><td>$112,000</td><td>$16,800 (15%)</td><td>$95,200</td><td><span class="badge-ok">Reconciled</span></td><td><button class="ba ba-s">View Audit</button></td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="sc">
+        <div class="sc-h">
+            <h3>Buddy Payout Settlement (Weekly)</h3>
+            <div class="flex gap-2">
+                <select class="form-input" style="padding: 0.3rem; font-size: 0.75rem; width: 150px;">
+                    <option>All Enterprises</option>
+                    <option>ABC Fleet</option>
+                    <option>Independent</option>
+                </select>
+                <button class="ba ba-p">Settle All (Approved)</button>
+            </div>
+        </div>
+        <table class="dark">
+            <thead>
+                <tr>
+                    <th>Buddy</th>
+                    <th>Orders</th>
+                    <th>Base + Dist</th>
+                    <th>Tips</th>
+                    <th>Reimb.</th>
+                    <th>Total Payout</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Rohan Sharma</td>
+                    <td>42</td>
+                    <td>$420.00</td>
+                    <td>$85.00</td>
+                    <td>$12.50</td>
+                    <td><b>$517.50</b></td>
+                    <td><span class="badge-pend">Pending</span></td>
+                    <td><button class="ba ba-p">Pay Now</button></td>
+                </tr>
+                <tr>
+                    <td>Amit Kumar</td>
+                    <td>38</td>
+                    <td>$380.00</td>
+                    <td>$40.00</td>
+                    <td>$0.00</td>
+                    <td><b>$420.00</b></td>
+                    <td><span class="badge-ok">Settle Initiated</span></td>
+                    <td><button class="ba ba-s">Receipt</button></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- MASTER DATA (Multi-select City example) -->
+<div class="pnl" id="p-master">
+    <div class="top"><div><h1>Master Data Management</h1><p style="color:var(--dark-muted);font-size:.85rem">Manage global taxonomies and allowed service areas</p></div></div>
+    
+    <div class="grid-2">
+        <div class="sc"><div class="sc-h"><h3>Service Cities & Regions</h3></div>
+            <div class="sc-b">
+                <div class="form-group" style="margin-bottom:1rem">
+                    <label class="form-label">Supported Service Cities</label>
+                    <div class="ms-wrap">
+                        <div class="ms-btn" onclick="document.getElementById('city-menu').classList.toggle('show')">Select Cities... <span>▾</span></div>
+                        <div class="ms-menu" id="city-menu">
+                            <label class="ms-opt"><input type="checkbox" checked> New York, NY</label>
+                            <label class="ms-opt"><input type="checkbox" checked> San Francisco, CA</label>
+                            <label class="ms-opt"><input type="checkbox"> Chicago, IL</label>
+                            <label class="ms-opt"><input type="checkbox"> Austin, TX</label>
+                            <label class="ms-opt"><input type="checkbox"> Miami, FL</label>
+                        </div>
+                    </div>
+                </div>
+                <button class="ba ba-p">Update Coverage</button>
+            </div>
+        </div>
+
+        <div class="sc"><div class="sc-h"><h3>EV Database & Models</h3></div>
+            <div class="sc-b">
+                <table class="dark" style="margin-bottom:1rem">
+                    <tr><td>Tesla Model 3</td><td>75 kWh</td><td>NACS</td></tr>
+                    <tr><td>Ford F-150 Lightning</td><td>131 kWh</td><td>CCS</td></tr>
+                </table>
+                <button class="ba ba-s" style="width:100%">+ Add EV Model</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- SECURITY & AUDIT -->
+<div class="pnl" id="p-security">
+    <div class="top"><div><h1>Security & PII Audit Logs</h1><p style="color:var(--dark-muted);font-size:.85rem">Track all system-level access and document views</p></div></div>
+    <div class="sc">
+        <table class="dark">
+            <thead><tr><th>Timestamp</th><th>Admin User</th><th>Action</th><th>Target Resource</th><th>IP Address</th></tr></thead>
+            <tbody>
+                <tr><td>May 1, 10:45 AM</td><td>super.admin@vizehelp</td><td><span class="badge-pend">VIEW_PII</span></td><td>KYB_Document_NYC.pdf</td><td>192.168.1.1</td></tr>
+                <tr><td>May 1, 09:12 AM</td><td>sys.engine</td><td><span class="badge-ok">UPDATE_PLAN</span></td><td>Standard_Plan_Limits</td><td>System</td></tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- MAKER CHECKER -->
+<div class="pnl" id="p-maker">
+    <div class="top"><div><h1>Maker-Checker Queue</h1><p style="color:var(--dark-muted);font-size:.85rem">Dual-approval requirement for critical platform changes</p></div></div>
+    <div class="sc"><div class="sc-b">
+        <div class="maker-checker">
+            <div>
+                <div style="font-weight:700;margin-bottom:.25rem">Change Commission Rate (Global)</div>
+                <div style="font-size:.8rem;color:var(--dark-muted)">Requested by: Finance Admin | Old: 15% → New: 18%</div>
+            </div>
+            <div style="display:flex;gap:.5rem"><button class="ba ba-s" style="color:var(--danger)">Reject</button><button class="ba ba-p">Approve Change</button></div>
+        </div>
+    </div></div>
+</div>
+
+<!-- PLACEHOLDERS -->
+<div class="pnl" id="p-bver">
+    <div class="top">
+        <div>
+            <h1>Buddy Verification & Risk</h1>
+            <p style="color:var(--dark-muted);font-size:.85rem">Review and approve new EV Buddy applications globally</p>
+        </div>
+        <div class="flex gap-2">
+            <button class="ba ba-s">Bulk Background Sync</button>
+            <span class="badge-pend">48 Pending Verification</span>
+        </div>
+    </div>
+
+    <div class="sc">
+        <div class="sc-h"><h3>Buddy Verification Queue</h3></div>
+        <table class="dark">
+            <thead>
+                <tr>
+                    <th>Buddy</th>
+                    <th>Enterprise / Area</th>
+                    <th>Submitted</th>
+                    <th>Documents</th>
+                    <th>Risk Score</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <div style="font-weight:700">Rohan Sharma</div>
+                        <div style="font-size:.7rem;color:var(--dark-muted)">VB-1092</div>
+                    </td>
+                    <td><div style="font-size:.8rem">ABC Fleet</div><div style="font-size:.7rem;color:var(--dark-muted)">Mumbai, MH</div></td>
+                    <td>May 1, 2026</td>
+                    <td>
+                        <div class="flex gap-1">
+                            <span class="badge-ok" style="font-size: 8px;">ID</span>
+                            <span class="badge-ok" style="font-size: 8px;">DL</span>
+                            <span class="badge-pend" style="font-size: 8px;">BANK</span>
+                        </div>
+                    </td>
+                    <td><span class="badge-ok">Low (0.1)</span></td>
+                    <td><button class="ba ba-p" onclick="openVerificationModal('Rohan Sharma')">Verify KYC</button></td>
+                </tr>
+                <tr>
+                    <td>
+                        <div style="font-weight:700">Amit Kumar</div>
+                        <div style="font-size:.7rem;color:var(--dark-muted)">VB-1105</div>
+                    </td>
+                    <td><div style="font-size:.8rem">Independent</div><div style="font-size:.7rem;color:var(--dark-muted)">Delhi, NCR</div></td>
+                    <td>Apr 30, 2026</td>
+                    <td>
+                        <div class="flex gap-1">
+                            <span class="badge-ok" style="font-size: 8px;">ID</span>
+                            <span class="badge-ok" style="font-size: 8px;">DL</span>
+                            <span class="badge-ok" style="font-size: 8px;">BANK</span>
+                        </div>
+                    </td>
+                    <td><span class="badge-ok">Safe (0.0)</span></td>
+                    <td><button class="ba ba-p">Verify KYC</button></td>
+                </tr>
+                <tr>
+                    <td>
+                        <div style="font-weight:700">Suresh Patil</div>
+                        <div style="font-size:.7rem;color:var(--dark-muted)">VB-INV-88</div>
+                    </td>
+                    <td><div style="font-size:.8rem">Vizehelp Fleet</div><div style="font-size:.7rem;color:var(--dark-muted)">Pune, MH</div></td>
+                    <td>Apr 29, 2026</td>
+                    <td>
+                        <div class="flex gap-1">
+                            <span class="badge-rej" style="font-size: 8px;">ID BLUR</span>
+                            <span class="badge-ok" style="font-size: 8px;">DL</span>
+                            <span class="badge-ok" style="font-size: 8px;">BANK</span>
+                        </div>
+                    </td>
+                    <td><span class="badge-pend">Moderate (2.4)</span></td>
+                    <td><button class="ba ba-s" style="color: var(--danger)">Reject Doc</button></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- Verification Modal (Simulated) -->
+<div id="vModal" class="hidden" style="position: fixed; inset: 0; background: rgba(0,0,0,0.8); z-index: 1000; display: flex; align-items: center; justify-content: center; padding: 20px;">
+    <div class="sc" style="width: 100%; max-width: 800px; background: var(--dark-card);">
+        <div class="sc-h">
+            <h3 id="vName">Verifying Buddy: Rohan Sharma</h3>
+            <button class="ba ba-s" onclick="closeVModal()">✕</button>
+        </div>
+        <div class="sc-b grid-2">
+            <div>
+                <div class="form-group mb-4">
+                    <label class="form-label">Government ID (Aadhar)</label>
+                    <div style="width: 100%; height: 180px; background: #334155; border-radius: var(--radius); display: flex; align-items: center; justify-content: center; overflow: hidden;">
+                        <img src="https://via.placeholder.com/400x200?text=Aadhar+Card+Scan" alt="ID">
+                    </div>
+                    <div class="flex gap-2 mt-2">
+                        <button class="ba ba-p ba-s" style="flex:1">Approve</button>
+                        <button class="ba ba-s" style="flex:1; color: var(--danger)">Reject</button>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Driving License</label>
+                    <div style="width: 100%; height: 180px; background: #334155; border-radius: var(--radius); display: flex; align-items: center; justify-content: center; overflow: hidden;">
+                        <img src="https://via.placeholder.com/400x200?text=Driving+License+Scan" alt="DL">
+                    </div>
+                </div>
+            </div>
+            <div>
+                <div class="form-group mb-4">
+                    <label class="form-label">Live Selfie Match</label>
+                    <div style="width: 100%; height: 180px; background: #334155; border-radius: var(--radius); display: flex; align-items: center; justify-content: center;">
+                        <div class="flex gap-2">
+                            <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Buddy1" style="width: 80px; border-radius: 50%;">
+                            <div style="display:flex; align-items:center; font-size: 24px; color: var(--success);"><i class="fa-solid fa-circle-check"></i></div>
+                            <div style="display:flex; flex-direction:column; justify-content:center;">
+                                <div class="text-xs font-bold">Face Match Score</div>
+                                <div class="text-xl font-black">94.2%</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Background Check Summary</label>
+                    <div class="p-3 bg-dark-bg rounded border border-dark-border">
+                        <div class="flex justify-between text-xs mb-2"><span>Criminal Record</span><span class="text-success">CLEAN</span></div>
+                        <div class="flex justify-between text-xs mb-2"><span>License Valid</span><span class="text-success">YES</span></div>
+                        <div class="flex justify-between text-xs"><span>PEP / AML Check</span><span class="text-success">CLEAR</span></div>
+                    </div>
+                </div>
+                <div class="mt-8">
+                    <button class="ba ba-p" style="width: 100%; padding: 1rem;" onclick="alert('Buddy Verified & Activated!'); closeVModal();">Approve & Activate Buddy</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function openVerificationModal(name) {
+        document.getElementById('vName').innerText = 'Verifying Buddy: ' + name;
+        const modal = document.getElementById('vModal');
+        modal.classList.remove('hidden');
+        modal.style.display = 'flex';
+    }
+    function closeVModal() {
+        document.getElementById('vModal').style.display = 'none';
+    }
+</script>
+
+<div class="pnl" id="p-sla">
+    <div class="top">
+        <div>
+            <h1>Fraud Detection & System Integrity</h1>
+            <p style="color:var(--dark-muted);font-size:.85rem">Global monitoring of Geo-fence breaches and AI photo discrepancies</p>
+        </div>
+        <div class="badge-rej">3 High Risk Alerts</div>
+    </div>
+    <div class="grid-2">
+        <div class="sc">
+            <div class="sc-h"><h3>High Risk Fraud Queue</h3></div>
+            <table class="dark">
+                <thead><tr><th>Target</th><th>Risk Type</th><th>Score</th><th>Action</th></tr></thead>
+                <tbody>
+                    <tr><td>Buddy VB-1092</td><td><span class="badge-rej">Geo-Fence Breach</span></td><td>94/100</td><td><button class="ba ba-p">Freeze Account</button></td></tr>
+                    <tr><td>Order #ORD-8812</td><td><span class="badge-pend">AI Photo Diff (15%)</span></td><td>72/100</td><td><button class="ba ba-s">Audit Photo</button></td></tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="sc">
+            <div class="sc-h"><h3>Growth Tier Management</h3></div>
+            <div class="sc-b">
+                <div class="flex flex-col gap-3">
+                    <div class="p-3 border border-dark-border rounded flex justify-between items-center">
+                        <div>
+                            <div class="text-sm font-bold">Gold Tier</div>
+                            <div class="text-xs text-muted">Req: 50 orders/mo, 4.8 Rating</div>
+                        </div>
+                        <span class="badge-ok">Edit Perks</span>
+                    </div>
+                    <div class="p-3 border border-dark-border rounded flex justify-between items-center">
+                        <div>
+                            <div class="text-sm font-bold">Silver Tier</div>
+                            <div class="text-xs text-muted">Req: 20 orders/mo, 4.5 Rating</div>
+                        </div>
+                        <span class="badge-ok">Edit Perks</span>
+                    </div>
+                </div>
+                <button class="ba ba-p w-full mt-4">+ Define New Tier</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="pnl" id="p-claims"><div class="top"><h1>Dispute Governance</h1></div><div class="sc"><div class="sc-b">Escalated insurance claims between enterprise and customers...</div></div></div>
+<div class="pnl" id="p-support">
+    <div class="top">
+        <h1>US Infrastructure & 10DLC</h1>
+        <p style="color:var(--dark-muted);font-size:.85rem">Carrier registration and tax engine configuration</p>
+    </div>
+    <div class="grid-2">
+        <div class="sc">
+            <div class="sc-h"><h3>10DLC Messaging Campaigns</h3></div>
+            <div class="sc-b">
+                <div class="p-3 border border-dark-border rounded mb-3 flex justify-between items-center">
+                    <div>
+                        <div class="text-sm font-bold">Transactional (OTP/Orders)</div>
+                        <div class="text-xs text-success">Status: Fully Registered</div>
+                    </div>
+                    <i class="fa-solid fa-circle-check text-success"></i>
+                </div>
+                <button class="ba ba-p w-full">Register New Campaign</button>
+            </div>
+        </div>
+        <div class="sc">
+            <div class="sc-h"><h3>Tax & PO Configuration</h3></div>
+            <div class="sc-b">
+                <div class="flex flex-col gap-2">
+                    <div class="flex justify-between text-xs"><span>Nexus Tracking</span><span class="text-success font-bold">ON</span></div>
+                    <div class="flex justify-between text-xs"><span>PO Requirement</span><span class="text-success font-bold">ENABLED</span></div>
+                    <div class="flex justify-between text-xs"><span>W-9 Enforcement</span><span class="text-success font-bold">100%</span></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+</main>
+</div>
+
+<script>
+function sp(id){
+    document.querySelectorAll('.pnl').forEach(p=>p.classList.remove('active'));
+    document.getElementById('p-'+id).classList.add('active');
+    document.querySelectorAll('.ni').forEach(n=>n.classList.remove('active'));
+    if(event) event.target.closest('.ni').classList.add('active');
+}
+</script>
+</body>
+</html>

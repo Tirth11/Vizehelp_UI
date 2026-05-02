@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Buddy Login | Vizehelp EVHelpBuddy</title>
+    <link rel="stylesheet" href="css/design-system.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            background: var(--dark-bg);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: var(--sp-4);
+            color: var(--white);
+        }
+
+        .login-card {
+            width: 100%;
+            max-width: 400px;
+            background: var(--dark-card);
+            border: 1px solid var(--dark-border);
+            border-radius: var(--radius-2xl);
+            padding: var(--sp-10);
+            box-shadow: var(--shadow-xl);
+            animation: slideUp 0.6s var(--ease);
+        }
+
+        .logo-box {
+            background: var(--primary);
+            width: 50px;
+            height: 50px;
+            border-radius: var(--radius-lg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto var(--sp-6);
+            font-size: var(--text-2xl);
+            font-weight: 900;
+        }
+
+        .login-header {
+            text-align: center;
+            margin-bottom: var(--sp-8);
+        }
+
+        .login-header h1 {
+            font-size: var(--text-2xl);
+            margin-bottom: var(--sp-2);
+        }
+
+        .login-header p {
+            color: var(--dark-muted);
+            font-size: var(--text-sm);
+        }
+
+        .otp-container {
+            display: flex;
+            gap: var(--sp-3);
+            justify-content: center;
+            margin: var(--sp-6) 0;
+        }
+
+        .otp-input {
+            width: 45px;
+            height: 55px;
+            background: var(--navy-light);
+            border: 2px solid var(--dark-border);
+            border-radius: var(--radius);
+            text-align: center;
+            font-size: var(--text-xl);
+            font-weight: 700;
+            color: var(--white);
+            transition: all 0.2s;
+        }
+
+        .otp-input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px var(--primary-glow);
+        }
+
+        .resend-box {
+            text-align: center;
+            margin-top: var(--sp-4);
+            font-size: var(--text-xs);
+            color: var(--dark-muted);
+        }
+
+        .resend-box a {
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        .divider {
+            height: 1px;
+            background: var(--dark-border);
+            margin: var(--sp-8) 0;
+            position: relative;
+        }
+
+        .divider::after {
+            content: 'OR';
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            background: var(--dark-card);
+            padding: 0 var(--sp-3);
+            font-size: 10px;
+            color: var(--dark-muted);
+            font-weight: 700;
+        }
+
+        .enterprise-badge {
+            background: rgba(99, 102, 241, 0.1);
+            border: 1px solid rgba(99, 102, 241, 0.2);
+            color: #818cf8;
+            padding: var(--sp-4);
+            border-radius: var(--radius-lg);
+            display: flex;
+            align-items: center;
+            gap: var(--sp-4);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .enterprise-badge:hover {
+            background: rgba(99, 102, 241, 0.2);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="login-card">
+        <div class="logo-box">V</div>
+        
+        <div id="login-form">
+            <div class="login-header">
+                <h1>EV Buddy Login</h1>
+                <p>Enter your registered mobile number</p>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label" style="color: var(--dark-muted);">Mobile Number</label>
+                <div class="flex gap-2">
+                    <div style="background: var(--navy-light); padding: 0 12px; display: flex; align-items: center; border-radius: var(--radius); border: 1.5px solid var(--dark-border); font-size: var(--text-sm);">+91</div>
+                    <input type="tel" class="form-input" id="phoneInput" style="background: var(--navy-light); border-color: var(--dark-border); color: white;" placeholder="9876543210">
+                </div>
+            </div>
+
+            <button type="button" class="btn btn-primary btn-block mt-4" id="sendOtpBtn">
+                Send OTP <i class="fa-solid fa-paper-plane" style="font-size: 10px;"></i>
+            </button>
+        </div>
+
+        <div id="otp-form" class="hidden">
+            <div class="login-header">
+                <h1>Verify OTP</h1>
+                <p>Code sent to <span id="displayPhone"></span></p>
+            </div>
+
+            <div class="otp-container">
+                <input type="text" maxlength="1" class="otp-input">
+                <input type="text" maxlength="1" class="otp-input">
+                <input type="text" maxlength="1" class="otp-input">
+                <input type="text" maxlength="1" class="otp-input">
+            </div>
+
+            <button type="button" class="btn btn-success btn-block mt-6" id="verifyBtn">
+                Verify & Login
+            </button>
+
+            <div class="resend-box">
+                Didn't receive code? <a href="#">Resend in 30s</a>
+            </div>
+        </div>
+
+        <div class="divider"></div>
+
+        <div class="enterprise-badge" onclick="alert('Scan your invitation QR code from the Enterprise Portal')">
+            <div style="width: 40px; height: 40px; border-radius: 50%; background: var(--info); display: flex; align-items: center; justify-content: center; color: white;">
+                <i class="fa-solid fa-qrcode"></i>
+            </div>
+            <div>
+                <div class="text-sm font-bold">Enterprise Invite?</div>
+                <div class="text-xs" style="opacity: 0.7;">Login with invitation code</div>
+            </div>
+        </div>
+
+        <p class="text-center mt-8 text-xs text-muted">
+            New Buddy? <a href="buddy-signup.html" style="color: var(--primary); font-weight: 700;">Create Account</a>
+        </p>
+    </div>
+
+    <script>
+        const loginForm = document.getElementById('login-form');
+        const otpForm = document.getElementById('otp-form');
+        const phoneInput = document.getElementById('phoneInput');
+        const sendOtpBtn = document.getElementById('sendOtpBtn');
+        const verifyBtn = document.getElementById('verifyBtn');
+        const displayPhone = document.getElementById('displayPhone');
+        const otpInputs = document.querySelectorAll('.otp-input');
+
+        sendOtpBtn.addEventListener('click', () => {
+            if (phoneInput.value.length >= 10) {
+                displayPhone.innerText = '+91 ' + phoneInput.value;
+                loginForm.classList.add('hidden');
+                otpForm.classList.remove('hidden');
+                otpInputs[0].focus();
+            } else {
+                alert('Please enter a valid phone number');
+            }
+        });
+
+        otpInputs.forEach((input, index) => {
+            input.addEventListener('keyup', (e) => {
+                if (e.key >= 0 && e.key <= 9) {
+                    if (index < otpInputs.length - 1) otpInputs[index + 1].focus();
+                } else if (e.key === 'Backspace') {
+                    if (index > 0) otpInputs[index - 1].focus();
+                }
+            });
+        });
+
+        verifyBtn.addEventListener('click', () => {
+            verifyBtn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i> Authenticating...';
+            setTimeout(() => {
+                localStorage.setItem('buddyLoggedIn', 'true');
+                window.location.href = 'buddy-dashboard.html';
+            }, 1500);
+        });
+    </script>
+</body>
+</html>

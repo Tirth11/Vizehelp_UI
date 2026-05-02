@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EV Buddy Registration | Vizehelp EVHelpBuddy</title>
+    <meta name="description" content="Register as a Vizehelp EV Buddy and start earning by helping enterprise fleets and customers charge their EVs.">
+    <link rel="stylesheet" href="css/design-system.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --step-active: var(--primary);
+            --step-inactive: var(--slate-200);
+        }
+
+        body {
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: var(--sp-10) var(--sp-4);
+        }
+
+        .signup-container {
+            width: 100%;
+            max-width: 700px;
+            background: var(--white);
+            border-radius: var(--radius-2xl);
+            box-shadow: var(--shadow-xl);
+            overflow: hidden;
+            border: 1px solid var(--slate-200);
+            animation: fadeIn 0.6s var(--ease);
+        }
+
+        .signup-header {
+            background: var(--navy);
+            color: var(--white);
+            padding: var(--sp-8) var(--sp-10);
+            position: relative;
+        }
+
+        .signup-header h1 {
+            font-size: var(--text-2xl);
+            margin-bottom: var(--sp-2);
+        }
+
+        .signup-header p {
+            color: var(--slate-400);
+            font-size: var(--text-sm);
+        }
+
+        /* Progress Bar */
+        .progress-stepper {
+            display: flex;
+            justify-content: space-between;
+            padding: var(--sp-6) var(--sp-10);
+            background: var(--slate-50);
+            border-bottom: 1px solid var(--slate-200);
+            position: relative;
+        }
+
+        .step-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: var(--sp-2);
+            z-index: 1;
+            flex: 1;
+        }
+
+        .step-circle {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: var(--white);
+            border: 2px solid var(--slate-300);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: var(--text-xs);
+            color: var(--slate-500);
+            transition: all 0.3s var(--ease);
+        }
+
+        .step-item.active .step-circle {
+            border-color: var(--primary);
+            background: var(--primary);
+            color: var(--white);
+            box-shadow: 0 0 0 4px var(--primary-glow);
+        }
+
+        .step-item.completed .step-circle {
+            border-color: var(--success);
+            background: var(--success);
+            color: var(--white);
+        }
+
+        .step-label {
+            font-size: 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            font-weight: 700;
+            color: var(--slate-400);
+        }
+
+        .step-item.active .step-label {
+            color: var(--primary);
+        }
+
+        .progress-line {
+            position: absolute;
+            top: 40px;
+            left: 15%;
+            right: 15%;
+            height: 2px;
+            background: var(--slate-200);
+            z-index: 0;
+        }
+
+        .progress-line-fill {
+            height: 100%;
+            background: var(--primary);
+            width: 0%;
+            transition: width 0.4s var(--ease);
+        }
+
+        .signup-content {
+            padding: var(--sp-10);
+        }
+
+        .step-content {
+            display: none;
+        }
+
+        .step-content.active {
+            display: block;
+            animation: slideUp 0.4s var(--ease);
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--sp-6);
+        }
+
+        .full-width {
+            grid-column: span 2;
+        }
+
+        .upload-area {
+            border: 2px dashed var(--slate-200);
+            padding: var(--sp-8);
+            border-radius: var(--radius-lg);
+            text-align: center;
+            transition: all 0.2s;
+            cursor: pointer;
+            background: var(--slate-50);
+        }
+
+        .upload-area:hover {
+            border-color: var(--primary);
+            background: var(--primary-light);
+        }
+
+        .upload-icon {
+            font-size: var(--text-3xl);
+            color: var(--slate-400);
+            margin-bottom: var(--sp-3);
+        }
+
+        .signup-footer {
+            padding: var(--sp-6) var(--sp-10);
+            background: var(--slate-50);
+            border-top: 1px solid var(--slate-200);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .btn-prev {
+            visibility: hidden;
+        }
+
+        .btn-prev.visible {
+            visibility: visible;
+        }
+
+        @media (max-width: 640px) {
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+            .full-width {
+                grid-column: span 1;
+            }
+            .signup-content {
+                padding: var(--sp-6);
+            }
+        }
+
+        /* Glassmorphism background for the body */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: radial-gradient(circle at 10% 20%, rgba(59, 130, 246, 0.05) 0%, transparent 40%),
+                        radial-gradient(circle at 90% 80%, rgba(16, 185, 129, 0.05) 0%, transparent 40%);
+            z-index: -1;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="signup-container">
+        <header class="signup-header">
+            <div class="flex items-center gap-3 mb-4">
+                <div style="background: var(--primary); width: 40px; height: 40px; border-radius: var(--radius); display: flex; align-items: center; justify-content: center; font-weight: 900; color: white;">V</div>
+                <h1>Vizehelp EV Buddy</h1>
+            </div>
+            <p>Join the future of EV charging logistics.</p>
+        </header>
+
+        <div class="progress-stepper">
+            <div class="progress-line">
+                <div class="progress-line-fill" id="progressLine"></div>
+            </div>
+            <div class="step-item active" id="stepIndicator1">
+                <div class="step-circle">1</div>
+                <div class="step-label">Personal</div>
+            </div>
+            <div class="step-item" id="stepIndicator2">
+                <div class="step-circle">2</div>
+                <div class="step-label">Documents</div>
+            </div>
+            <div class="step-item" id="stepIndicator3">
+                <div class="step-circle">3</div>
+                <div class="step-label">Bank</div>
+            </div>
+            <div class="step-item" id="stepIndicator4">
+                <div class="step-circle">4</div>
+                <div class="step-label">Location</div>
+            </div>
+        </div>
+
+        <form id="signupForm" class="signup-content">
+            <!-- Step 1: Personal Details -->
+            <div class="step-content active" id="step1">
+                <h3 class="mb-6">Personal Information</h3>
+                <div class="form-grid">
+                    <div class="form-group full-width">
+                        <label class="form-label">Full Name</label>
+                        <input type="text" class="form-input" placeholder="Enter your legal name" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Mobile Number</label>
+                        <div class="flex gap-2">
+                            <input type="tel" class="form-input" placeholder="Phone number" required>
+                            <button type="button" class="btn btn-outline btn-sm">Verify</button>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Email Address</label>
+                        <input type="email" class="form-input" placeholder="buddy@example.com">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Date of Birth</label>
+                        <input type="date" class="form-input" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Gender</label>
+                        <select class="form-input">
+                            <option value="">Select Gender</option>
+                            <option value="male">Male</option>
+                            <option value="female">Female</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+                    <div class="form-group full-width">
+                        <label class="form-label">Residential Address</label>
+                        <textarea class="form-input" rows="2" placeholder="Your current address"></textarea>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Step 2: Documents -->
+            <div class="step-content" id="step2">
+                <h3 class="mb-6">Identity & Verification</h3>
+                <div class="form-grid">
+                    <div class="form-group full-width">
+                        <label class="form-label">Government ID (Aadhar/Passport)</label>
+                        <div class="upload-area">
+                            <i class="fa-solid fa-id-card upload-icon"></i>
+                            <p class="text-sm font-bold">Click to upload ID front & back</p>
+                            <p class="text-xs text-muted">Max file size 5MB (PDF, JPG, PNG)</p>
+                        </div>
+                    </div>
+                    <div class="form-group full-width">
+                        <label class="form-label">Driving License</label>
+                        <div class="upload-area">
+                            <i class="fa-solid fa-address-card upload-icon"></i>
+                            <p class="text-sm font-bold">Click to upload DL</p>
+                            <p class="text-xs text-muted">Valid license for 2W/4W required</p>
+                        </div>
+                    </div>
+                    <div class="form-group full-width">
+                        <label class="form-label">Selfie with ID</label>
+                        <div class="upload-area">
+                            <i class="fa-solid fa-camera upload-icon"></i>
+                            <p class="text-sm font-bold">Take a live photo</p>
+                            <p class="text-xs text-muted">Hold your ID card next to your face</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Step 3: Bank Details -->
+            <div class="step-content" id="step3">
+                <h3 class="mb-6">Payout Information</h3>
+                <div class="form-grid">
+                    <div class="form-group full-width">
+                        <label class="form-label">Account Holder Name</label>
+                        <input type="text" class="form-input" placeholder="Must match your ID" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Bank Account Number</label>
+                        <input type="password" class="form-input" placeholder="Enter account number" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Confirm Account Number</label>
+                        <input type="text" class="form-input" placeholder="Re-enter account number" required>
+                    </div>
+                    <div class="grid-2">
+                        <div class="form-group">
+                            <label class="form-label">Social Security Number (SSN) / ITIN</label>
+                            <input type="password" class="form-input" placeholder="XXX-XX-XXXX">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">W-9 Tax Form Status</label>
+                            <div class="flex items-center gap-2 mt-2">
+                                <button class="btn btn-outline btn-sm w-full"><i class="fa-solid fa-file-pdf"></i> Upload Signed W-9</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="alert alert-info mt-6">
+                    <i class="fa-solid fa-shield-halved"></i>
+                    <p class="text-xs">Your financial details are encrypted and stored securely for automated payouts.</p>
+                </div>
+            </div>
+
+            <!-- Step 4: Service Location -->
+            <div class="step-content" id="step4">
+                <h3 class="mb-6">Service Area & Availability</h3>
+                <div class="step-header">
+                    <h2>Service Preferences</h2>
+                    <p>Choose your operational range in miles</p>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Max Travel Distance (Miles)</label>
+                    <select class="form-input">
+                        <option>Within 5 miles</option>
+                        <option>Within 10 miles</option>
+                        <option>Within 25 miles</option>
+                        <option>Unlimited</option>
+                    </select>
+                </div>
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label class="form-label">Primary City</label>
+                        <select class="form-input" required>
+                            <option value="">Select City</option>
+                            <option value="mumbai">Mumbai</option>
+                            <option value="delhi">Delhi</option>
+                            <option value="bangalore">Bangalore</option>
+                            <option value="pune">Pune</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Service Area</label>
+                        <input type="text" class="form-input" placeholder="e.g. Andheri East, BKC">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Work Type</label>
+                        <select class="form-input">
+                            <option value="independent">Independent Freelancer</option>
+                            <option value="enterprise">Linked to Enterprise</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Vehicle Type Experience</label>
+                        <div class="flex gap-4 mt-2">
+                            <label class="flex items-center gap-2 text-sm">
+                                <input type="checkbox" checked> 2-Wheeler
+                            </label>
+                            <label class="flex items-center gap-2 text-sm">
+                                <input type="checkbox" checked> 4-Wheeler
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-8 p-4 bg-slate-50 border border-slate-200 rounded-lg">
+                    <label class="flex gap-3 items-start cursor-pointer">
+                        <input type="checkbox" style="margin-top: 4px;" required>
+                        <span class="text-xs text-muted">
+                            I agree to the <strong>Terms of Service</strong> and <strong>Safety Policy</strong>. I consent to background verification and understand that my account activation is subject to document approval by Vizehelp.
+                        </span>
+                    </label>
+                </div>
+            </div>
+        </form>
+
+        <footer class="signup-footer">
+            <button type="button" class="btn btn-ghost btn-prev" id="btnPrev">
+                <i class="fa-solid fa-arrow-left"></i> Previous
+            </button>
+            <div class="flex gap-3">
+                <button type="button" class="btn btn-outline" onclick="window.location.href='buddy-login.html'">Login</button>
+                <button type="button" class="btn btn-primary" id="btnNext">
+                    Next Step <i class="fa-solid fa-arrow-right"></i>
+                </button>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        const steps = document.querySelectorAll('.step-content');
+        const indicators = document.querySelectorAll('.step-item');
+        const progressLineFill = id('progressLine');
+        const btnNext = id('btnNext');
+        const btnPrev = id('btnPrev');
+        let currentStep = 1;
+
+        function id(name) { return document.getElementById(name); }
+
+        function updateUI() {
+            // Update steps visibility
+            steps.forEach((step, idx) => {
+                step.classList.toggle('active', idx + 1 === currentStep);
+            });
+
+            // Update indicators
+            indicators.forEach((indicator, idx) => {
+                const stepNum = idx + 1;
+                indicator.classList.toggle('active', stepNum === currentStep);
+                indicator.classList.toggle('completed', stepNum < currentStep);
+            });
+
+            // Update progress line
+            const progress = ((currentStep - 1) / (steps.length - 1)) * 100;
+            progressLineFill.style.width = progress + '%';
+
+            // Update buttons
+            btnPrev.classList.toggle('visible', currentStep > 1);
+            
+            if (currentStep === steps.length) {
+                btnNext.innerHTML = 'Submit Application <i class="fa-solid fa-check"></i>';
+                btnNext.classList.replace('btn-primary', 'btn-success');
+            } else {
+                btnNext.innerHTML = 'Next Step <i class="fa-solid fa-arrow-right"></i>';
+                btnNext.classList.replace('btn-success', 'btn-primary');
+            }
+        }
+
+        btnNext.addEventListener('click', () => {
+            if (currentStep < steps.length) {
+                currentStep++;
+                updateUI();
+            } else {
+                // Submit form
+                const submitBtn = btnNext;
+                submitBtn.disabled = true;
+                submitBtn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i> Processing...';
+                
+                setTimeout(() => {
+                    // Simulate successful registration
+                    localStorage.setItem('buddyStatus', 'Verification Pending');
+                    window.location.href = 'buddy-dashboard.html?status=pending';
+                }, 2000);
+            }
+        });
+
+        btnPrev.addEventListener('click', () => {
+            if (currentStep > 1) {
+                currentStep--;
+                updateUI();
+            }
+        });
+
+        // Initialize UI
+        updateUI();
+    </script>
+</body>
+</html>

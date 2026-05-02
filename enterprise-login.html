@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vizehelp | Enterprise Login</title>
+<link rel="stylesheet" href="css/design-system.css">
+<style>
+body{min-height:100vh;display:flex;background:var(--navy)}
+.left{flex:1;display:flex;flex-direction:column;justify-content:center;padding:4rem 5%;background:linear-gradient(135deg,#0F172A 0%,#1E293B 100%);position:relative;overflow:hidden}
+.left::before{content:'';position:absolute;width:500px;height:500px;background:radial-gradient(circle,rgba(59,130,246,.15),transparent 70%);top:-100px;right:-100px;border-radius:50%}
+.left::after{content:'';position:absolute;width:400px;height:400px;background:radial-gradient(circle,rgba(16,185,129,.1),transparent 70%);bottom:-80px;left:-80px;border-radius:50%}
+.brand{position:relative;z-index:1;max-width:480px}
+.brand .logo{font-size:2rem;font-weight:800;color:#fff;margin-bottom:2rem}
+.brand .logo span{color:var(--primary)}
+.brand h1{font-size:2.5rem;font-weight:800;color:#fff;line-height:1.1;margin-bottom:1.25rem}
+.brand h1 em{font-style:normal;color:var(--primary)}
+.brand p{color:var(--slate-400);font-size:1.05rem;line-height:1.6;margin-bottom:2.5rem}
+.trust-pills{display:flex;flex-wrap:wrap;gap:.75rem}
+.pill{display:flex;align-items:center;gap:.4rem;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.08);padding:.5rem 1rem;border-radius:var(--radius-full);font-size:.78rem;font-weight:600;color:var(--slate-300)}
+.pill .dot{width:7px;height:7px;border-radius:50%;background:var(--success)}
+
+.right{width:520px;display:flex;align-items:center;justify-content:center;padding:3rem;background:var(--slate-50)}
+.login-card{width:100%}
+.login-card h2{font-size:1.5rem;margin-bottom:.35rem;color:var(--navy)}
+.login-card .sub{color:var(--slate-500);font-size:.9rem;margin-bottom:2rem}
+.divider{display:flex;align-items:center;gap:1rem;margin:1.75rem 0;color:var(--slate-400);font-size:.8rem;font-weight:600}
+.divider::before,.divider::after{content:'';flex:1;height:1px;background:var(--slate-200)}
+.social-btn{width:100%;padding:.7rem;border-radius:var(--radius);border:1.5px solid var(--slate-200);background:var(--white);font-weight:600;font-size:.88rem;display:flex;align-items:center;justify-content:center;gap:.6rem;cursor:pointer;transition:.2s;margin-bottom:.75rem;color:var(--navy)}
+.social-btn:hover{border-color:var(--primary);background:var(--primary-light)}
+.form-group{margin-bottom:1.25rem}
+.form-label{display:block;font-weight:600;font-size:.85rem;margin-bottom:.4rem;color:var(--navy)}
+.form-input{width:100%;padding:.75rem .9rem;border-radius:var(--radius);border:1.5px solid var(--slate-200);font-size:.9rem;transition:.2s}
+.form-input:focus{outline:none;border-color:var(--primary);box-shadow:0 0 0 3px var(--primary-glow)}
+.pw-wrap{position:relative}
+.pw-wrap .toggle{position:absolute;right:.75rem;top:50%;transform:translateY(-50%);background:none;border:none;color:var(--slate-400);cursor:pointer;font-size:.85rem}
+.row{display:flex;justify-content:space-between;align-items:center;margin-bottom:1.75rem}
+.row label{display:flex;align-items:center;gap:.5rem;font-size:.85rem;color:var(--slate-700);cursor:pointer}
+.row label input{accent-color:var(--primary)}
+.forgot{color:var(--primary);font-size:.85rem;font-weight:600;text-decoration:none}
+.forgot:hover{text-decoration:underline}
+.btn-login{width:100%;padding:.85rem;border-radius:var(--radius);background:var(--primary);color:#fff;font-weight:700;font-size:.95rem;border:none;cursor:pointer;transition:.2s;box-shadow:0 4px 14px var(--primary-glow)}
+.btn-login:hover{background:var(--primary-dark);transform:translateY(-1px)}
+.signup-link{text-align:center;margin-top:1.75rem;font-size:.85rem;color:var(--slate-500)}
+.signup-link a{color:var(--primary);font-weight:700}
+.error-msg{background:var(--danger-light);color:var(--danger);padding:.6rem 1rem;border-radius:var(--radius);font-size:.82rem;font-weight:600;margin-bottom:1rem;display:none;align-items:center;gap:.5rem}
+
+/* Forgot Password Modal */
+.modal-bg{position:fixed;inset:0;background:rgba(0,0,0,.5);backdrop-filter:blur(4px);display:none;align-items:center;justify-content:center;z-index:500}
+.modal-bg.show{display:flex}
+.modal{background:var(--white);border-radius:var(--radius-xl);padding:2.5rem;width:440px;max-width:90vw;text-align:center}
+.modal h2{font-size:1.25rem;margin-bottom:.5rem}
+.modal p{color:var(--slate-500);font-size:.88rem;margin-bottom:2rem}
+.modal .form-group{text-align:left}
+.success-msg{background:var(--success-light);color:#065F46;padding:.75rem 1rem;border-radius:var(--radius);font-size:.85rem;margin-top:1rem;display:none}
+
+@media(max-width:900px){body{flex-direction:column}.left{padding:2rem}.right{width:100%}.brand h1{font-size:1.75rem}}
+</style>
+</head>
+<body>
+
+<div class="left">
+<div class="brand">
+<div class="logo">Vizehelp <span>EVHelpBuddy</span></div>
+<h1>Enterprise-grade <em>EV charging valet</em> for your business</h1>
+<p>Manage verified charging buddies, track live orders, and deliver premium EV services to your customers, employees, and residents.</p>
+<div class="trust-pills">
+<div class="pill"><span class="dot"></span>Verified Buddies</div>
+<div class="pill"><span class="dot"></span>OTP Key Handover</div>
+<div class="pill"><span class="dot"></span>Live GPS Tracking</div>
+<div class="pill"><span class="dot"></span>Photo-Verified Pickup</div>
+<div class="pill"><span class="dot"></span>Enterprise Dashboard</div>
+<div class="pill"><span class="dot"></span>SLA Monitoring</div>
+</div>
+</div>
+</div>
+
+<div class="right">
+<div class="login-card">
+<h2>Enterprise Login</h2>
+<p class="sub">Sign in to your Vizehelp enterprise portal</p>
+
+<div class="error-msg" id="error-msg">⚠️ Invalid email or password. Please try again.</div>
+
+<button class="social-btn" onclick="alert('SSO integration coming soon')">
+<svg width="18" height="18" viewBox="0 0 48 48"><path fill="#4285F4" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/><path fill="#34A853" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59A14.5 14.5 0 019.5 24c0-1.59.28-3.14.76-4.59l-7.98-6.19A23.99 23.99 0 000 24c0 3.77.87 7.34 2.44 10.52l8.09-5.93z"/><path fill="#EA4335" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/></svg>
+Sign in with Google SSO
+</button>
+<button class="social-btn" onclick="alert('Microsoft SSO integration coming soon')">
+<svg width="18" height="18" viewBox="0 0 21 21"><rect x="1" y="1" width="9" height="9" fill="#F25022"/><rect x="11" y="1" width="9" height="9" fill="#7FBA00"/><rect x="1" y="11" width="9" height="9" fill="#00A4EF"/><rect x="11" y="11" width="9" height="9" fill="#FFB900"/></svg>
+Sign in with Microsoft
+</button>
+
+<div class="divider">or sign in with email</div>
+
+<form onsubmit="handleLogin(event)">
+<div class="form-group">
+<label class="form-label">Business Email or Phone</label>
+<input class="form-input" type="text" id="email" placeholder="admin@company.com or +1 555-000-0000" required>
+</div>
+<div class="form-group">
+<label class="form-label">Password</label>
+<div class="pw-wrap">
+<input class="form-input" type="password" id="password" placeholder="Enter your password" required>
+<button type="button" class="toggle" onclick="togglePw()">Show</button>
+</div>
+</div>
+<div class="row">
+<label><input type="checkbox" checked> Remember me</label>
+<a href="#" class="forgot" onclick="event.preventDefault();document.getElementById('forgot-modal').classList.add('show')">Forgot password?</a>
+</div>
+<button type="submit" class="btn-login">Sign In to Enterprise Portal</button>
+</form>
+
+<div class="signup-link">
+Don't have an enterprise account? <a href="enterprise-signup.html">Start Enterprise Signup</a>
+</div>
+</div>
+</div>
+
+<!-- Forgot Password Modal -->
+<div class="modal-bg" id="forgot-modal">
+<div class="modal">
+<h2>Reset Your Password</h2>
+<p>Enter your registered business email or phone number and we'll send you a reset link.</p>
+<div class="form-group">
+<label class="form-label" style="text-align:left">Email or Phone Number</label>
+<input class="form-input" type="text" id="reset-input" placeholder="admin@company.com or +1 555-000-0000">
+</div>
+<button class="btn-login" style="margin-top:.5rem" onclick="sendReset()">Send Reset Link</button>
+<div class="success-msg" id="reset-success">✓ Password reset link sent! Check your email or phone for instructions.</div>
+<button class="social-btn" style="margin-top:1.25rem" onclick="document.getElementById('forgot-modal').classList.remove('show')">Back to Login</button>
+</div>
+</div>
+
+<script>
+function togglePw(){
+const p=document.getElementById('password');
+const t=p.previousElementSibling||p.nextElementSibling;
+if(p.type==='password'){p.type='text';document.querySelector('.toggle').textContent='Hide'}
+else{p.type='password';document.querySelector('.toggle').textContent='Show'}
+}
+function handleLogin(e){
+e.preventDefault();
+const email=document.getElementById('email').value;
+const pw=document.getElementById('password').value;
+if(email&&pw){window.location.href='enterprise-dashboard.html'}
+else{document.getElementById('error-msg').style.display='flex'}
+}
+function sendReset(){
+const v=document.getElementById('reset-input').value;
+if(v){document.getElementById('reset-success').style.display='block'}
+}
+</script>
+</body>
+</html>

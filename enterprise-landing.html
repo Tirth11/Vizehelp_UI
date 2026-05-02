@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vizehelp EVHelpBuddy | Enterprise EV Charging Valet</title>
+<link rel="stylesheet" href="css/design-system.css">
+<style>
+/* NAV */
+.site-nav{background:rgba(255,255,255,0.95);backdrop-filter:blur(10px);border-bottom:1px solid var(--slate-200);padding:1rem 5%;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:100}
+.logo{font-size:1.4rem;font-weight:800;color:var(--navy)}.logo span{color:var(--primary)}
+.nav-links{display:flex;gap:1.75rem;align-items:center}
+.nav-links a{font-weight:600;font-size:.88rem;color:var(--slate-700);transition:.2s}
+.nav-links a:hover{color:var(--primary)}
+
+/* HERO */
+.hero{display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:center;padding:6rem 5%;background:radial-gradient(circle at top right,rgba(59,130,246,.15) 0%,var(--slate-50) 60%);position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;width:600px;height:600px;background:radial-gradient(circle,rgba(16,185,129,.05),transparent 70%);bottom:-200px;left:-200px;border-radius:50%}
+.hero-content{position:relative;z-index:2}
+.hero h1{font-size:3.5rem;margin-bottom:1.25rem;line-height:1.1;color:var(--navy)}
+.hero h1 em{font-style:normal;color:var(--primary);position:relative}
+.hero h1 em::after{content:'';position:absolute;bottom:4px;left:0;width:100%;height:8px;background:var(--primary-glow);z-index:-1;border-radius:4px}
+.hero p{font-size:1.15rem;color:var(--slate-500);margin-bottom:2.5rem;max-width:540px}
+.hero-cta{display:flex;gap:1rem;margin-bottom:2.5rem}
+.trust-row{display:flex;gap:1.5rem;flex-wrap:wrap}
+.trust-chip{display:flex;align-items:center;gap:.4rem;font-size:.8rem;font-weight:600;color:var(--slate-500)}
+.trust-chip .dot{width:8px;height:8px;border-radius:50%;background:var(--success);box-shadow:0 0 8px var(--success)}
+
+.hero-visual{background:var(--white);border-radius:var(--radius-2xl);box-shadow:var(--shadow-xl);border:1px solid var(--slate-200);overflow:hidden;padding:2rem;min-height:480px;position:relative;z-index:2}
+.mock-bar{height:12px;border-radius:6px;background:var(--slate-100)}
+.mock-bar.blue{background:var(--primary);width:65%}
+.mock-card{background:var(--white);border-radius:var(--radius-lg);padding:1.25rem;margin-top:1.25rem;border:1px solid var(--slate-200);box-shadow:var(--shadow-sm);transition:transform .3s}
+.mock-card:hover{transform:translateY(-2px);box-shadow:var(--shadow)}
+
+/* HOW IT WORKS */
+.section{padding:5rem 5%}
+.section-header{text-align:center;margin-bottom:4rem}
+.section-header h2{font-size:2.5rem;margin-bottom:1rem;color:var(--navy)}
+.section-header p{color:var(--slate-500);max-width:650px;margin:0 auto;font-size:1.1rem}
+.steps-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2rem}
+.step-card{background:var(--white);border:1px solid var(--slate-200);border-radius:var(--radius-xl);padding:2.5rem;transition:all .3s var(--ease);position:relative;overflow:hidden}
+.step-card::before{content:'';position:absolute;top:0;left:0;width:100%;height:4px;background:var(--slate-200);transition:.3s}
+.step-card:hover{transform:translateY(-5px);box-shadow:var(--shadow-lg)}
+.step-card:hover::before{background:var(--primary)}
+.step-num{width:40px;height:40px;background:var(--primary-light);color:var(--primary);border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:1rem;margin-bottom:1.5rem}
+.step-card h3{font-size:1.15rem;margin-bottom:.75rem;color:var(--navy)}
+.step-card p{font-size:.9rem;color:var(--slate-500);line-height:1.6}
+
+/* PRICING */
+.pricing-section{background:var(--slate-50);padding:6rem 5%}
+.pricing-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1.5rem;align-items:start}
+.price-card{background:var(--white);border:1px solid var(--slate-200);border-radius:var(--radius-2xl);padding:2.5rem 2rem;display:flex;flex-direction:column;transition:.3s;position:relative;box-shadow:var(--shadow-sm)}
+.price-card.popular{border-color:var(--primary);border-width:2px;box-shadow:0 15px 35px var(--primary-glow);transform:scale(1.03);z-index:2}
+.pop-badge{position:absolute;top:-14px;left:50%;transform:translateX(-50%);background:var(--primary);color:var(--white);padding:.3rem 1rem;border-radius:var(--radius-full);font-size:.75rem;font-weight:800;letter-spacing:.05em}
+.price-name{font-size:1.25rem;font-weight:800;margin-bottom:.5rem;color:var(--navy)}
+.price-desc{font-size:.85rem;color:var(--slate-500);margin-bottom:1.5rem;min-height:2.5rem}
+.price-amt{font-size:2.5rem;font-weight:800;margin-bottom:.5rem;color:var(--navy);display:flex;align-items:baseline;gap:.25rem}
+.price-amt small{font-size:1rem;font-weight:500;color:var(--slate-400)}
+.price-features{list-style:none;margin:1.5rem 0 2rem;flex-grow:1}
+.price-features li{font-size:.85rem;padding:.5rem 0;display:flex;align-items:flex-start;gap:.6rem;color:var(--slate-700)}
+.price-features li::before{content:"✓";color:var(--success);font-weight:800;flex-shrink:0;background:var(--success-light);width:18px;height:18px;display:flex;align-items:center;justify-content:center;border-radius:50%;font-size:.6rem;margin-top:2px}
+
+/* TOP-UPS */
+.topups-container{max-width:900px;margin:4rem auto 0;background:var(--white);border-radius:var(--radius-xl);border:1px solid var(--slate-200);padding:3rem;text-align:center;box-shadow:var(--shadow-sm)}
+.topups-container h3{font-size:1.5rem;color:var(--navy);margin-bottom:1rem}
+.topups-container p{color:var(--slate-500);margin-bottom:2rem}
+.topup-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem}
+.topup-item{padding:1.5rem;background:var(--slate-50);border-radius:var(--radius-lg);border:1px solid var(--slate-200)}
+.topup-item h4{font-size:1.1rem;color:var(--navy);margin-bottom:.5rem}
+.topup-item .price{font-size:1.25rem;font-weight:800;color:var(--primary);margin-bottom:.5rem}
+.topup-item p{font-size:.8rem;color:var(--slate-500);margin:0}
+
+/* CTA BANNER */
+.cta-banner{background:linear-gradient(135deg,var(--navy),#1E293B);color:var(--white);text-align:center;padding:5rem 5%;border-radius:var(--radius-2xl);margin:0 5% 5rem;position:relative;overflow:hidden}
+.cta-banner::before{content:'';position:absolute;top:0;left:0;width:100%;height:100%;background:url('data:image/svg+xml;utf8,<svg width="20" height="20" xmlns="http://www.w3.org/2000/svg"><circle cx="2" cy="2" r="1" fill="rgba(255,255,255,0.05)"/></svg>');z-index:0}
+.cta-banner h2{font-size:2.5rem;margin-bottom:1rem;position:relative;z-index:1}
+.cta-banner p{opacity:.85;margin-bottom:2.5rem;max-width:600px;margin-left:auto;margin-right:auto;font-size:1.1rem;position:relative;z-index:1}
+
+/* FOOTER */
+footer{background:var(--white);border-top:1px solid var(--slate-200);padding:4rem 5% 2rem}
+.footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr 1fr;gap:3rem;margin-bottom:3rem}
+.footer-logo{font-size:1.4rem;font-weight:800;margin-bottom:1rem;color:var(--navy)}
+.footer-logo span{color:var(--primary)}
+.ftr-col h4{font-size:.95rem;margin-bottom:1.25rem;color:var(--navy)}
+.ftr-col ul{list-style:none}
+.ftr-col li{margin-bottom:.75rem}
+.ftr-col a{color:var(--slate-500);font-size:.88rem;transition:.2s}
+.ftr-col a:hover{color:var(--primary)}
+.footer-bottom{border-top:1px solid var(--slate-200);padding-top:1.5rem;text-align:center;color:var(--slate-400);font-size:.8rem}
+
+@media(max-width:1024px){.hero,.steps-grid,.pricing-grid,.topup-grid{grid-template-columns:1fr}.hero h1{font-size:2.5rem}.footer-grid{grid-template-columns:1fr 1fr}}
+</style>
+</head>
+<body>
+
+<nav class="site-nav">
+    <div class="logo">Vizehelp <span>EVHelpBuddy</span></div>
+    <div class="nav-links">
+        <a href="#how">How It Works</a>
+        <a href="#pricing">Pricing</a>
+        <a href="enterprise-login.html" class="btn btn-outline btn-sm">Enterprise Login</a>
+        <a href="enterprise-signup.html" class="btn btn-primary btn-sm">Start Enterprise Signup</a>
+    </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+    <div class="hero-content">
+        <h1>Offer premium <em>EV charging valet</em> services for your business.</h1>
+        <p>Manage verified charging buddies, track live orders, and deliver a seamless EV experience to your customers, employees, and residents.</p>
+        <div class="hero-cta">
+            <a href="enterprise-signup.html" class="btn btn-primary btn-lg" style="padding:1rem 2rem;font-size:1.05rem">Get Started Free</a>
+            <a href="#pricing" class="btn btn-outline btn-lg" style="padding:1rem 2rem;font-size:1.05rem;background:var(--white)">View Pricing</a>
+        </div>
+        <div class="trust-row">
+            <span class="trust-chip"><span class="dot"></span> Verified Buddies</span>
+            <span class="trust-chip"><span class="dot"></span> Live Tracking</span>
+            <span class="trust-chip"><span class="dot"></span> SLA Monitoring</span>
+        </div>
+    </div>
+    <div class="hero-visual">
+        <div style="display:flex;gap:1rem;margin-bottom:2rem;align-items:center">
+            <div style="width:40px;height:40px;border-radius:10px;background:var(--primary-light);display:flex;align-items:center;justify-content:center;color:var(--primary);font-size:1.2rem">📊</div>
+            <div style="flex:1"><div class="mock-bar" style="width:50%;margin-bottom:8px"></div><div class="mock-bar" style="width:30%"></div></div>
+        </div>
+        <div class="mock-card">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem">
+                <div style="font-weight:800;color:var(--navy)">Active Dispatch #ORD-402</div>
+                <span class="badge badge-warning">2m Wait</span>
+            </div>
+            <div style="font-size:.8rem;color:var(--slate-500);margin-bottom:1rem">Tesla Model 3 • Downtown Hub</div>
+            <div style="background:var(--slate-100);border-radius:4px;height:6px"><div class="mock-bar blue"></div></div>
+        </div>
+        <div class="mock-card" style="background:var(--navy);border-color:var(--navy)">
+            <div style="display:flex;justify-content:space-between;align-items:center">
+                <div>
+                    <div style="font-size:.75rem;color:var(--slate-300);margin-bottom:.25rem">Customer Return OTP</div>
+                    <div style="font-size:1.5rem;font-weight:800;color:var(--white);letter-spacing:4px">4 0 2 9</div>
+                </div>
+                <div style="width:36px;height:36px;border-radius:50%;background:rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center;color:var(--white)">✓</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="section" id="how">
+    <div class="section-header">
+        <h2>Enterprise Onboarding in 6 Steps</h2>
+        <p>A streamlined KYB (Know Your Business) workflow to get your verified charging fleet operational quickly and securely.</p>
+    </div>
+    <div class="steps-grid">
+        <div class="step-card"><div class="step-num">1</div><h3>Enterprise Signs Up</h3><p>Create your account, provide business details, and set up your primary authorized contact.</p></div>
+        <div class="step-card"><div class="step-num">2</div><h3>Select Plan & Top-Ups</h3><p>Choose from our scalable plans. Add extra locations, buddies, or orders as needed.</p></div>
+        <div class="step-card"><div class="step-num">3</div><h3>Business Verification</h3><p>Upload your KYB documents for fast approval by the Vizehelp compliance team.</p></div>
+        <div class="step-card"><div class="step-num">4</div><h3>Add Service Locations</h3><p>Register your corporate offices, hotels, or residential societies and configure business rules.</p></div>
+        <div class="step-card"><div class="step-num">5</div><h3>Invite Customers & Buddies</h3><p>Manage access control for your customers and invite verified charging buddies.</p></div>
+        <div class="step-card"><div class="step-num">6</div><h3>Live SLA Dispatch</h3><p>Monitor real-time orders, manage claims, and track carbon savings via the dashboard.</p></div>
+    </div>
+</section>
+
+<!-- PRICING -->
+<section class="pricing-section" id="pricing">
+    <div class="section-header">
+        <h2>Flexible Subscription Plans</h2>
+        <p>Scale your EV valet operations seamlessly. Upgrade or buy top-ups anytime as your business grows.</p>
+    </div>
+    
+    <div class="pricing-grid">
+        <div class="price-card">
+            <div class="price-name">Basic</div>
+            <div class="price-desc">Perfect for small offices and residential societies.</div>
+            <div class="price-amt">$299<small>/mo</small></div>
+            <ul class="price-features">
+                <li><strong>1</strong> Service Location</li>
+                <li>Up to <strong>10</strong> Buddies</li>
+                <li><strong>50</strong> Orders/mo</li>
+                <li>Standard Dashboard</li>
+                <li>Basic Access Control</li>
+            </ul>
+            <a href="enterprise-signup.html" class="btn btn-outline btn-block" style="padding:1rem">Start Basic</a>
+        </div>
+        
+        <div class="price-card popular">
+            <div class="pop-badge">MOST POPULAR</div>
+            <div class="price-name">Standard</div>
+            <div class="price-desc">Ideal for malls, hotels, and mid-size businesses.</div>
+            <div class="price-amt">$799<small>/mo</small></div>
+            <ul class="price-features">
+                <li><strong>5</strong> Service Locations</li>
+                <li>Up to <strong>25</strong> Buddies</li>
+                <li><strong>200</strong> Orders/mo</li>
+                <li>Live Dispatch Board</li>
+                <li>Advanced Reports</li>
+                <li>Claims Workflow</li>
+            </ul>
+            <a href="enterprise-signup.html" class="btn btn-primary btn-block" style="padding:1rem">Choose Standard</a>
+        </div>
+        
+        <div class="price-card">
+            <div class="price-name">Advanced</div>
+            <div class="price-desc">For large corporate hubs and parking operators.</div>
+            <div class="price-amt">$1,999<small>/mo</small></div>
+            <ul class="price-features">
+                <li><strong>20</strong> Service Locations</li>
+                <li>Up to <strong>75</strong> Buddies</li>
+                <li><strong>750</strong> Orders/mo</li>
+                <li>SLA Monitoring & Alerts</li>
+                <li>User Role Management</li>
+                <li>Pricing & Subsidy Rules</li>
+            </ul>
+            <a href="enterprise-signup.html" class="btn btn-outline btn-block" style="padding:1rem">Choose Advanced</a>
+        </div>
+        
+        <div class="price-card">
+            <div class="price-name">Enterprise</div>
+            <div class="price-desc">Unlimited scaling for national fleets and airports.</div>
+            <div class="price-amt">Custom</div>
+            <ul class="price-features">
+                <li>Custom Locations</li>
+                <li>Unlimited Buddies</li>
+                <li>Custom Order Limits</li>
+                <li>White-Label App Portal</li>
+                <li>API & HRMS Integrations</li>
+                <li>Dedicated Success Manager</li>
+            </ul>
+            <a href="#" class="btn btn-outline btn-block" style="padding:1rem">Contact Sales</a>
+        </div>
+    </div>
+
+    <!-- TOP UPS SECTION -->
+    <div class="topups-container">
+        <h3>Need More Capacity? Buy Top-Ups Anytime</h3>
+        <p>Don't want to upgrade your whole plan? Purchase add-ons directly from your enterprise dashboard.</p>
+        <div class="topup-grid">
+            <div class="topup-item">
+                <h4>🤝 Extra Buddies</h4>
+                <div class="price">$50/mo</div>
+                <p>Bundle of 5 additional verified buddy slots</p>
+            </div>
+            <div class="topup-item">
+                <h4>📍 Extra Locations</h4>
+                <div class="price">$100/mo</div>
+                <p>Add 1 additional service location</p>
+            </div>
+            <div class="topup-item">
+                <h4>📋 Extra Orders</h4>
+                <div class="price">$150/mo</div>
+                <p>Bundle of 100 extra monthly order credits</p>
+            </div>
+        </div>
+        <div style="margin-top:2rem;font-size:.85rem;color:var(--slate-500)">
+            <strong>Usage Alerts:</strong> We automatically notify you when you reach 70% and 85% of your limits, so your operations are never interrupted.
+        </div>
+    </div>
+</section>
+
+<!-- CTA -->
+<div class="cta-banner">
+    <div style="position:relative;z-index:1">
+        <h2>Ready to elevate your EV charging strategy?</h2>
+        <p>Join leading enterprises using Vizehelp EVHelpBuddy to deliver seamless, verified charging valet services.</p>
+        <div style="display:flex;gap:1rem;justify-content:center">
+            <a href="enterprise-signup.html" class="btn btn-lg" style="background:var(--primary);color:var(--white);border:none">Create Enterprise Account</a>
+            <a href="enterprise-login.html" class="btn btn-lg" style="background:transparent;color:var(--white);border:2px solid rgba(255,255,255,.3)">Sign In</a>
+        </div>
+    </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+    <div class="footer-grid">
+        <div>
+            <div class="footer-logo">Vizehelp <span>EVHelpBuddy</span></div>
+            <p style="color:var(--slate-500);font-size:.85rem;line-height:1.6;max-width:280px">The enterprise-grade EV charging valet platform. Verified buddies, live tracking, and complete operational control.</p>
+        </div>
+        <div class="ftr-col"><h4>Product</h4><ul><li><a href="#how">How It Works</a></li><li><a href="#pricing">Pricing & Top-Ups</a></li><li><a href="#">SLA & Dispatch</a></li><li><a href="#">Safety & Claims</a></li></ul></div>
+        <div class="ftr-col"><h4>Company</h4><ul><li><a href="#">About Us</a></li><li><a href="#">Careers</a></li><li><a href="#">Contact Sales</a></li></ul></div>
+        <div class="ftr-col"><h4>Portals</h4><ul><li><a href="enterprise-login.html">Enterprise Login</a></li><li><a href="#">Buddy Portal</a></li><li><a href="#">Customer App</a></li></ul></div>
+        <div class="ftr-col"><h4>Legal</h4><ul><li><a href="#">Privacy Policy</a></li><li><a href="#">Terms of Service</a></li></ul></div>
+    </div>
+    <div class="footer-bottom">© 2026 Vizehelp. All rights reserved.</div>
+</footer>
+
+</body>
+</html>

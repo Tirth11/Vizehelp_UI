@@ -3,34 +3,64 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Vizehelp EVHelpBuddy | Platform Hub</title>
+<title>Vizehelp | Multi-Service Managed Operations Platform</title>
+<meta name="description" content="Vizehelp is a B2B multi-service managed operations platform. Enable EV charging, laundry, cleaning, parcel, parking, and more — all from one enterprise hub.">
 <link rel="stylesheet" href="css/design-system.css">
 <style>
-body{min-height:100vh;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#0F172A,#1E293B)}
-.hub{text-align:center;padding:2rem}
-.hub h1{color:#fff;font-size:2.5rem;margin-bottom:.5rem}
-.hub h1 span{color:var(--primary)}
-.hub p{color:var(--slate-400);margin-bottom:3rem;font-size:1.1rem}
-.cards{display:grid;grid-template-columns:repeat(2,1fr);gap:1.5rem;max-width:700px}
-.card-link{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:var(--radius-xl);padding:2.5rem 2rem;text-decoration:none;color:#fff;transition:all .3s;backdrop-filter:blur(10px)}
-.card-link:hover{background:rgba(59,130,246,.15);border-color:var(--primary);transform:translateY(-4px)}
-.card-link h3{font-size:1.15rem;margin-bottom:.5rem}
-.card-link p{font-size:.85rem;color:var(--slate-400)}
-.card-link .icon{font-size:2rem;margin-bottom:1rem}
+body{min-height:100vh;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#0F172A,#1E293B);padding:2rem}
+.hub{text-align:center;max-width:1100px;width:100%}
+.hub h1{color:#fff;font-size:2.8rem;margin-bottom:.5rem}
+.hub h1 span{background:linear-gradient(135deg,var(--primary),#818CF8);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.hub .tagline{color:var(--slate-400);margin-bottom:3rem;font-size:1.1rem;max-width:600px;margin-left:auto;margin-right:auto}
+
+.services-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:1rem;margin-bottom:3rem}
+.svc-card{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:var(--radius-lg);padding:1.25rem 1rem;text-align:center;transition:all .3s var(--ease);cursor:default}
+.svc-card:hover{background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.15);transform:translateY(-3px)}
+.svc-icon{font-size:1.6rem;margin-bottom:.5rem}
+.svc-name{color:#fff;font-weight:700;font-size:.82rem;margin-bottom:.25rem}
+.svc-desc{color:var(--slate-400);font-size:.68rem;line-height:1.4}
+
+.portals{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;max-width:900px;margin:0 auto}
+.portal-link{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:var(--radius-xl);padding:2.5rem 2rem;text-decoration:none;color:#fff;transition:all .3s;backdrop-filter:blur(10px);text-align:center}
+.portal-link:hover{background:rgba(59,130,246,.15);border-color:var(--primary);transform:translateY(-4px)}
+.portal-link h3{font-size:1.1rem;margin-bottom:.5rem}
+.portal-link p{font-size:.82rem;color:var(--slate-400)}
+.portal-link .icon{font-size:2rem;margin-bottom:1rem}
+
+.section-label{color:var(--slate-400);font-size:.7rem;text-transform:uppercase;letter-spacing:.1em;font-weight:700;margin-bottom:1.25rem}
+
+@media(max-width:1024px){.services-grid{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:768px){.services-grid{grid-template-columns:repeat(2,1fr)}.portals{grid-template-columns:1fr}.hub h1{font-size:2rem}}
 </style>
 </head>
 <body>
 <div class="hub">
-<h1>Vizehelp <span>EVHelpBuddy</span></h1>
-<p>Select a portal to explore the platform</p>
-<div class="cards">
-<a href="enterprise-landing.html" class="card-link"><div class="icon">🌐</div><h3>Enterprise Website</h3><p>Landing page, pricing, and marketing site</p></a>
-<a href="enterprise-signup.html" class="card-link"><div class="icon">📝</div><h3>Enterprise Signup</h3><p>6-step registration and verification flow</p></a>
-<a href="enterprise-dashboard.html" class="card-link"><div class="icon">🏢</div><h3>Enterprise Dashboard</h3><p>Operations, buddies, orders, and claims</p></a>
-<a href="super-admin.html" class="card-link"><div class="icon">🛡️</div><h3>Vizehelp Super Admin</h3><p>Platform governance and approvals</p></a>
-<a href="buddy-signup.html" class="card-link" style="border-color: var(--success);"><div class="icon">🤝</div><h3>Buddy Registration</h3><p>Join as a verified EV Buddy</p></a>
-<a href="buddy-dashboard.html" class="card-link" style="border-color: var(--primary);"><div class="icon">⚡</div><h3>Buddy Dashboard</h3><p>Active orders, earnings, and navigation</p></a>
-</div>
+    <h1>Vizehelp <span>Platform</span></h1>
+    <p class="tagline">B2B multi-service managed operations — one platform, ten services, complete enterprise control.</p>
+
+    <div class="section-label">All Services on the Platform</div>
+    <div class="services-grid">
+        <div class="svc-card"><div class="svc-icon">⚡</div><div class="svc-name">EVHelpBuddy</div><div class="svc-desc">EV pickup, charge, return</div></div>
+        <div class="svc-card"><div class="svc-icon">👕</div><div class="svc-name">LaundryBuddy</div><div class="svc-desc">Pickup, wash, deliver</div></div>
+        <div class="svc-card"><div class="svc-icon">🍽</div><div class="svc-name">UtensilBuddy</div><div class="svc-desc">Utensil cleaning service</div></div>
+        <div class="svc-card"><div class="svc-icon">🏠</div><div class="svc-name">CleanBuddy</div><div class="svc-desc">House & office cleaning</div></div>
+        <div class="svc-card"><div class="svc-icon">📦</div><div class="svc-name">ParcelBuddy</div><div class="svc-desc">Parcel pickup & delivery</div></div>
+        <div class="svc-card"><div class="svc-icon">🤝</div><div class="svc-name">SeniorBuddy</div><div class="svc-desc">Seniors assistance</div></div>
+        <div class="svc-card"><div class="svc-icon">🛒</div><div class="svc-name">ShopBuddy</div><div class="svc-desc">Personal shopping</div></div>
+        <div class="svc-card"><div class="svc-icon">🚗</div><div class="svc-name">ParkingBuddy</div><div class="svc-desc">Valet & parking ops</div></div>
+        <div class="svc-card"><div class="svc-icon">✨</div><div class="svc-name">MaidBuddy</div><div class="svc-desc">Maid scheduling</div></div>
+        <div class="svc-card"><div class="svc-icon">🔧</div><div class="svc-name">CareBuddy</div><div class="svc-desc">Vehicle wash & service</div></div>
+    </div>
+
+    <div class="section-label">Explore the Platform</div>
+    <div class="portals">
+        <a href="enterprise-landing.html" class="portal-link"><div class="icon">🌐</div><h3>Enterprise Website</h3><p>Landing page, pricing, and multi-service plans</p></a>
+        <a href="enterprise-signup.html" class="portal-link"><div class="icon">📝</div><h3>Enterprise Signup</h3><p>6-step registration with service selection</p></a>
+        <a href="enterprise-login.html" class="portal-link"><div class="icon">🔑</div><h3>Enterprise Login</h3><p>Sign in to the admin portal</p></a>
+        <a href="enterprise-dashboard.html" class="portal-link"><div class="icon">🏢</div><h3>Enterprise Dashboard</h3><p>Multi-service operations hub</p></a>
+        <a href="super-admin.html" class="portal-link"><div class="icon">🛡️</div><h3>Super Admin</h3><p>Platform governance & approvals</p></a>
+        <a href="buddy-dashboard.html" class="portal-link" style="border-color:rgba(16,185,129,.3)"><div class="icon">🤝</div><h3>Buddy Portal</h3><p>Worker dashboard & orders</p></a>
+    </div>
 </div>
 </body>
 </html>

@@ -1,0 +1,537 @@
+// Paste into use_figma `code` (Phase 1 — build only, no reactions)
+// File: Vizehelp — UX Blueprint  fileKey: DSCJffFtqgEbYHnNXt2AZJ
+
+await figma.loadFontAsync({ family: 'Inter', style: 'Regular' });
+await figma.loadFontAsync({ family: 'Inter', style: 'Semi Bold' });
+await figma.loadFontAsync({ family: 'Inter', style: 'Bold' });
+
+function rgb(r, g, b) {
+  return { r: r / 255, g: g / 255, b: b / 255 };
+}
+
+const C = {
+  navy: rgb(15, 23, 42),
+  navyLt: rgb(30, 41, 59),
+  primary: rgb(59, 130, 246),
+  primaryLight: rgb(219, 234, 254),
+  slate50: rgb(248, 250, 252),
+  slate100: rgb(241, 245, 249),
+  slate200: rgb(226, 232, 240),
+  slate400: rgb(148, 163, 184),
+  slate500: rgb(100, 116, 139),
+  slate700: rgb(51, 65, 85),
+  white: rgb(255, 255, 255),
+  ok: rgb(16, 185, 129),
+  okBg: rgb(209, 250, 229),
+  warn: rgb(245, 158, 11),
+  warnBg: rgb(254, 243, 199),
+  warnTxt: rgb(146, 64, 14),
+  danger: rgb(239, 68, 68),
+  dangerBg: rgb(254, 226, 226),
+  darkBg: rgb(2, 6, 23),
+  darkCard: rgb(15, 23, 42),
+  darkBr: rgb(30, 41, 59),
+  darkMuted: rgb(148, 163, 184)
+};
+
+function ds(col, radius, spread) {
+  return {
+    type: 'DROP_SHADOW',
+    color: col,
+    offset: { x: 0, y: 8 },
+    radius,
+    spread: spread ?? 0,
+    visible: true,
+    blendMode: 'NORMAL'
+  };
+}
+
+const protoTran = {
+  type: 'SMART_ANIMATE',
+  easing: { type: 'EASE_OUT' },
+  duration: 0.28
+};
+
+async function wireNav(node, destId) {
+  if (!node || !destId) return;
+  await node.setReactionsAsync([
+    {
+      trigger: { type: 'ON_CLICK' },
+      actions: [
+        {
+          type: 'NODE',
+          destinationId: destId,
+          navigation: 'NAVIGATE',
+          transition: protoTran,
+          resetScrollPosition: true
+        }
+      ]
+    }
+  ]);
+}
+
+function findDeep(root, predicate) {
+  const out = [];
+  if (predicate(root)) out.push(root);
+  if ('children' in root) {
+    for (const c of root.children) out.push(...findDeep(c, predicate));
+  }
+  return out;
+}
+
+function byName(root, nm) {
+  return findDeep(root, (n) => n.name === nm)[0] || null;
+}
+
+function txt(parent, s, px, wt, color, xx, yy, ww) {
+  const t = figma.createText();
+  t.fontName = { family: 'Inter', style: wt };
+  t.fontSize = px;
+  t.characters = s;
+  t.fills = [{ type: 'SOLID', color }];
+  t.x = xx;
+  t.y = yy;
+  if (ww) {
+    t.resize(ww, px + 6);
+    t.textAutoResize = 'HEIGHT';
+  }
+  parent.appendChild(t);
+  return t;
+}
+
+function rect(parent, fill, stroke, sw, w, h, rad, xx, yy) {
+  const r = figma.createRectangle();
+  r.resize(w, h);
+  r.x = xx;
+  r.y = yy;
+  r.cornerRadius = rad || 0;
+  r.fills = fill ? [{ type: 'SOLID', color: fill }] : [];
+  if (stroke) {
+    r.strokes = [{ type: 'SOLID', color: stroke }];
+    r.strokeWeight = sw || 1;
+  }
+  parent.appendChild(r);
+  return r;
+}
+
+function btn(parent, name, label, xx, yy, w, prim) {
+  const fb = figma.createFrame();
+  fb.name = name;
+  fb.resize(w, 42);
+  fb.x = xx;
+  fb.y = yy;
+  fb.cornerRadius = 8;
+  fb.layoutMode = 'HORIZONTAL';
+  fb.primaryAxisAlignItems = 'CENTER';
+  fb.counterAxisAlignItems = 'CENTER';
+  if (prim) {
+    fb.fills = [{ type: 'SOLID', color: C.primary }];
+    fb.effects = [ds({ r: C.primary.r, g: C.primary.g, b: C.primary.b, a: 0.34 }, 16, -2)];
+  } else {
+    fb.fills = [{ type: 'SOLID', color: C.white }];
+    fb.strokes = [{ type: 'SOLID', color: C.slate200 }];
+    fb.strokeWeight = 1.5;
+  }
+  const tl = figma.createText();
+  tl.fontName = { family: 'Inter', style: 'Semi Bold' };
+  tl.fontSize = 13;
+  tl.characters = label;
+  tl.fills = [{ type: 'SOLID', color: prim ? C.white : C.slate700 }];
+  fb.appendChild(tl);
+  parent.appendChild(fb);
+  return fb;
+}
+
+function hit(parent, name, w, h, xx, yy) {
+  const r = figma.createRectangle();
+  r.name = name;
+  r.resize(w, h);
+  r.x = xx;
+  r.y = yy;
+  r.fills = [{ type: 'SOLID', color: { r: C.primary.r, g: C.primary.g, b: C.primary.b, a: 0.06 } }];
+  parent.appendChild(r);
+  return r;
+}
+
+let page = figma.root.children.find((p) => p.name === 'Prototype — Hi-Fi Desktop');
+if (!page) {
+  page = figma.createPage();
+  page.name = 'Prototype — Hi-Fi Desktop';
+}
+await figma.setCurrentPageAsync(page);
+for (const n of [...page.children]) n.remove();
+page.backgrounds = [{ type: 'SOLID', color: C.slate100 }];
+
+const W = 1440;
+const H = 900;
+const pad = 56;
+let xCursor = 40;
+const colGap = 64;
+
+function addScreen(title) {
+  const f = figma.createFrame();
+  f.name = title;
+  f.resize(W, H);
+  f.x = xCursor;
+  f.y = 40;
+  f.cornerRadius = 12;
+  f.clipsContent = true;
+  page.appendChild(f);
+  xCursor += W + colGap;
+  return f;
+}
+
+const scrHome = addScreen('SCR — Marketing / Home');
+scrHome.fills = [{ type: 'SOLID', color: C.slate50 }];
+scrHome.strokes = [{ type: 'SOLID', color: C.slate200 }];
+const scrSign = addScreen('SCR — Auth / Enterprise Signup');
+scrSign.fills = [{ type: 'SOLID', color: C.slate50 }];
+scrSign.strokes = [{ type: 'SOLID', color: C.slate200 }];
+const scrVer = addScreen('SCR — Auth / Verification');
+scrVer.fills = [{ type: 'SOLID', color: C.slate50 }];
+scrVer.strokes = [{ type: 'SOLID', color: C.slate200 }];
+const scrEnt = addScreen('SCR — Enterprise / Dashboard');
+scrEnt.fills = [{ type: 'SOLID', color: C.slate50 }];
+scrEnt.strokes = [{ type: 'SOLID', color: C.slate200 }];
+const scrAdm = addScreen('SCR — Super Admin / Dashboard');
+scrAdm.fills = [{ type: 'SOLID', color: C.darkBg }];
+scrAdm.strokes = [{ type: 'SOLID', color: C.darkBr }];
+
+// --- HOME (mirrors enterprise-landing.html structure) ---
+rect(scrHome, C.white, C.slate200, 1, W, 64, 0, 0, 0);
+txt(scrHome, 'Vizehelp', 17, 'Bold', C.navy, pad, 20);
+txt(scrHome, 'Enterprise', 17, 'Semi Bold', C.primary, pad + 86, 20);
+let nx = 440;
+for (const l of ['How it works', 'Services', 'Safety', 'Pricing']) {
+  txt(scrHome, l, 13, 'Semi Bold', C.slate700, nx, 22);
+  nx += 114;
+}
+btn(scrHome, 'proto-home-login', 'Enterprise Login', W - 340, 12, 154, false);
+btn(scrHome, 'proto-home-register-nav', 'Register Enterprise', W - 176, 12, 168, true);
+txt(
+  scrHome,
+  'Run EV charging, laundry, maid, parking,\nand on-demand services from one platform.',
+  34,
+  'Bold',
+  C.navy,
+  pad,
+  118,
+  640
+);
+txt(
+  scrHome,
+  'One operations layer for offices, hotels, malls, residential societies, fleets, and parking operators — matching your marketing HTML.',
+  17,
+  'Regular',
+  C.slate500,
+  pad,
+  232,
+  580
+);
+btn(scrHome, 'proto-home-register-hero', 'Register Enterprise', pad, 310, 220, true);
+btn(scrHome, 'proto-home-pricing', 'View Pricing', pad + 236, 310, 160, false);
+let cx = pad;
+const cy = 386;
+const chips = ['Verified workers', 'OTP handover', 'Vehicle photos', 'Live tracking', 'Audit logs'];
+for (const ch of chips) {
+  const wf = figma.createFrame();
+  wf.resize(162, 32);
+  wf.x = cx;
+  wf.y = cy;
+  wf.cornerRadius = 999;
+  wf.layoutMode = 'HORIZONTAL';
+  wf.primaryAxisAlignItems = 'CENTER';
+  wf.counterAxisAlignItems = 'CENTER';
+  wf.itemSpacing = 8;
+  wf.paddingLeft = 12;
+  wf.paddingRight = 12;
+  wf.fills = [{ type: 'SOLID', color: C.white }];
+  wf.strokes = [{ type: 'SOLID', color: C.slate200 }];
+  wf.strokeWeight = 1;
+  const d = figma.createEllipse();
+  d.resize(8, 8);
+  d.fills = [{ type: 'SOLID', color: C.ok }];
+  const tt = figma.createText();
+  tt.fontName = { family: 'Inter', style: 'Semi Bold' };
+  tt.fontSize = 11;
+  tt.characters = ch;
+  tt.fills = [{ type: 'SOLID', color: C.slate500 }];
+  wf.appendChild(d);
+  wf.appendChild(tt);
+  scrHome.appendChild(wf);
+  cx += wf.width + 10;
+}
+const vx = W - pad - 520;
+const vy = 118;
+const vis = rect(scrHome, C.white, C.slate200, 1, 520, 440, 20, vx, vy);
+vis.effects = [ds({ r: 0, g: 0, b: 0, a: 0.1 }, 40, -12)];
+rect(scrHome, C.slate100, undefined, 0, 240, 10, 5, vx + 28, vy + 28);
+rect(scrHome, C.white, C.slate200, 1, vis.width - 56, 130, 12, vx + 28, vy + 52);
+txt(scrHome, 'ORDER #VH-9042 • EVHelpBuddy • Downtown Hub', 13, 'Semi Bold', C.navy, vx + 44, vy + 70);
+txt(scrHome, 'Charging • Live SLA trace • Evidence capture', 12, 'Regular', C.slate500, vx + 44, vy + 92, 440);
+rect(scrHome, C.slate100, undefined, 0, vis.width - 88, 8, 4, vx + 44, vy + 138);
+rect(scrHome, C.primary, undefined, 0, Math.floor((vis.width - 88) * 0.65), 8, 4, vx + 44, vy + 138);
+rect(scrHome, C.navyLt, C.slate700, 1, vis.width - 56, 144, 12, vx + 28, vy + 240);
+txt(scrHome, 'Customer return OTP', 11, 'Regular', C.slate400, vx + 44, vy + 268);
+txt(scrHome, '4  0  2  9', 22, 'Bold', C.white, vx + 44, vy + 290);
+rect(scrHome, C.primary, undefined, 0, 34, 34, 17, vx + vis.width - 66, vy + 294);
+
+// --- SIGNUP (mirrors enterprise-signup.html) ---
+rect(scrSign, C.white, C.slate200, 1, W, 64, 0, 0, 0);
+txt(scrSign, 'Vizehelp Enterprise', 16, 'Bold', C.navy, pad, 20);
+txt(scrSign, '← Back to Home', 12, 'Semi Bold', C.slate500, W - 190, 24);
+hit(scrSign, 'proto-sign-back', 220, 40, W - 220, 10);
+const stepY = 96;
+const labs = ['Business', 'Services', 'Ops', 'Plan', 'Docs', 'Admin', 'Review'];
+let sx = pad;
+for (let i = 0; i < 7; i++) {
+  const e = figma.createEllipse();
+  e.resize(34, 34);
+  e.x = sx;
+  e.y = stepY;
+  if (i === 0) e.fills = [{ type: 'SOLID', color: C.primary }];
+  else {
+    e.strokes = [{ type: 'SOLID', color: C.slate200 }];
+    e.strokeWeight = 2;
+    e.fills = [{ type: 'SOLID', color: C.white }];
+  }
+  scrSign.appendChild(e);
+  txt(scrSign, String(i + 1), 12, 'Semi Bold', i === 0 ? C.white : C.slate400, sx + 11, stepY + 9);
+  txt(scrSign, labs[i], 10, 'Semi Bold', i === 0 ? C.primary : C.slate400, sx - 4, stepY + 38);
+  sx += 104;
+}
+const lw = Math.min(760, W - pad * 2);
+const card = rect(scrSign, C.white, C.slate200, 1, lw, 640, 16, Math.floor((W - lw) / 2), stepY + 72);
+card.effects = [ds({ r: 0, g: 0, b: 0, a: 0.06 }, 30, -8)];
+txt(scrSign, 'Step 1: Business profile', 22, 'Bold', C.navy, card.x + 32, card.y + 28, lw - 64);
+txt(scrSign, 'Provide KYB-aligned business details — same progression as enterprise-signup.html (7 steps).', 14, 'Regular', C.slate500, card.x + 32, card.y + 62, lw - 64);
+const half = Math.floor((lw - 96) / 2);
+const cL = card.x + 32;
+const cR = card.x + 32 + half + 32;
+const r1 = card.y + 120;
+txt(scrSign, 'Company name *', 12, 'Semi Bold', C.navy, cL, r1);
+rect(scrSign, C.white, C.slate200, 1, half, 44, 8, cL, r1 + 18);
+txt(scrSign, 'Legal business name *', 12, 'Semi Bold', C.navy, cR, r1);
+rect(scrSign, C.white, C.slate200, 1, half, 44, 8, cR, r1 + 18);
+const r2 = card.y + 210;
+txt(scrSign, 'Business type *', 12, 'Semi Bold', C.navy, cL, r2);
+rect(scrSign, C.white, C.slate200, 1, half, 44, 8, cL, r2 + 18);
+txt(scrSign, 'Industry *', 12, 'Semi Bold', C.navy, cR, r2);
+rect(scrSign, C.white, C.slate200, 1, half, 44, 8, cR, r2 + 18);
+const r3 = card.y + 300;
+txt(scrSign, 'Website URL', 12, 'Semi Bold', C.navy, cL, r3);
+rect(scrSign, C.white, C.slate200, 1, half, 44, 8, cL, r3 + 18);
+txt(scrSign, 'Registration # *', 12, 'Semi Bold', C.navy, cR, r3);
+rect(scrSign, C.white, C.slate200, 1, half, 44, 8, cR, r3 + 18);
+const r4 = card.y + 390;
+txt(scrSign, 'Tax ID / GST / EIN *', 12, 'Semi Bold', C.navy, cL, r4);
+rect(scrSign, C.white, C.slate200, 1, half, 44, 8, cL, r4 + 18);
+txt(scrSign, '# Locations *', 12, 'Semi Bold', C.navy, cR, r4);
+rect(scrSign, C.white, C.slate200, 1, half, 44, 8, cR, r4 + 18);
+txt(scrSign, 'Operating area / city *', 12, 'Semi Bold', C.navy, card.x + 32, card.y + 480);
+rect(scrSign, C.white, C.slate200, 1, lw - 64, 44, 8, card.x + 32, card.y + 498);
+btn(scrSign, 'proto-sign-exit', 'Exit', card.x + 32, card.y + 564, 120, false);
+btn(scrSign, 'proto-sign-continue', 'Save & continue', card.x + lw - 32 - 220, card.y + 564, 220, true);
+
+// --- VERIFICATION ---
+const vcard = rect(scrVer, C.white, C.slate200, 1, 560, 360, 20, Math.floor((W - 560) / 2), Math.floor((H - 360) / 2));
+vcard.effects = [ds({ r: 0, g: 0, b: 0, a: 0.08 }, 36, -10)];
+const vIcon = figma.createEllipse();
+vIcon.resize(72, 72);
+vIcon.x = vcard.x + vcard.width / 2 - 36;
+vIcon.y = vcard.y + 36;
+vIcon.fills = [{ type: 'SOLID', color: C.warnBg }];
+scrVer.appendChild(vIcon);
+txt(scrVer, '…', 32, 'Bold', C.warn, vIcon.x + 26, vIcon.y + 18);
+txt(scrVer, 'Enterprise account under review', 22, 'Bold', C.navy, vcard.x + 48, vcard.y + 132, vcard.width - 96);
+txt(
+  scrVer,
+  'Status wall replaces dashboard until KYB completes. Email + in-app notices for pending, resubmission, approval, suspension.',
+  14,
+  'Regular',
+  C.slate500,
+  vcard.x + 48,
+  vcard.y + 176,
+  vcard.width - 96
+);
+btn(scrVer, 'proto-verify-dashboard', 'Open dashboard (approved demo)', vcard.x + 48, vcard.y + 258, 300, true);
+btn(scrVer, 'proto-verify-support', 'Contact support', vcard.x + 360, vcard.y + 258, 170, false);
+
+// --- ENTERPRISE DASHBOARD (mirrors enterprise-dashboard.html) ---
+const sideW = 258;
+rect(scrEnt, C.white, C.slate200, 1, sideW, H, 0, 0, 0);
+txt(scrEnt, 'Vizehelp', 15, 'Bold', C.navy, 20, 22);
+txt(scrEnt, 'Enterprise', 15, 'Semi Bold', C.primary, 92, 22);
+let sy = 66;
+function navHead(t) {
+  txt(scrEnt, t, 10, 'Semi Bold', C.slate400, 20, sy);
+  sy += 22;
+}
+function navRow(label, active) {
+  const row = rect(scrEnt, active ? C.primaryLight : C.white, undefined, 0, sideW - 16, 36, 8, 8, sy);
+  if (!active) row.fills = [{ type: 'SOLID', color: C.white }];
+  txt(scrEnt, label, 12, 'Semi Bold', active ? C.primary : C.slate500, 18, sy + 9);
+  sy += 44;
+}
+navHead('CORE');
+navRow('Dashboard', true);
+navRow('Live orders & SLA', false);
+navHead('OPERATIONS');
+navRow('Locations', false);
+navRow('Workers & verification', false);
+navRow('Customer access', false);
+navRow('All orders', false);
+navHead('BUSINESS');
+navRow('Payment & rules', false);
+navRow('Claims', false);
+navRow('Support', false);
+navRow('Reports', false);
+navHead('ADMIN');
+navRow('Subscription & billing', false);
+navRow('Users & roles', false);
+const mx = sideW + 48;
+txt(scrEnt, 'Operations dashboard', 24, 'Bold', C.navy, mx, 36);
+txt(scrEnt, 'All services • locations • workers • claims • SLA health', 13, 'Regular', C.slate500, mx, 74);
+const pill = figma.createFrame();
+pill.resize(130, 30);
+pill.x = W - pad - pill.width;
+pill.y = 38;
+pill.cornerRadius = 999;
+pill.fills = [{ type: 'SOLID', color: C.primaryLight }];
+pill.layoutMode = 'HORIZONTAL';
+pill.primaryAxisAlignItems = 'CENTER';
+pill.counterAxisAlignItems = 'CENTER';
+const pt = figma.createText();
+pt.fontName = { family: 'Inter', style: 'Semi Bold' };
+pt.fontSize = 11;
+pt.characters = 'Standard Plan';
+pt.fills = [{ type: 'SOLID', color: C.primary }];
+pill.appendChild(pt);
+scrEnt.appendChild(pill);
+const av = figma.createEllipse();
+av.resize(32, 32);
+av.x = pill.x - 44;
+av.y = pill.y - 2;
+av.fills = [{ type: 'SOLID', color: C.primary }];
+scrEnt.appendChild(av);
+txt(scrEnt, 'T', 12, 'Bold', C.white, av.x + 10, av.y + 7);
+txt(scrEnt, 'Admin', 13, 'Semi Bold', C.slate700, av.x + 40, pill.y + 6);
+rect(scrEnt, C.warnBg, C.warn, 1, W - mx - pad, 54, 10, mx, 108);
+txt(
+  scrEnt,
+  'Plan usage alert · 80% worker slots · Buy top-up',
+  13,
+  'Semi Bold',
+  C.warnTxt,
+  mx + 14,
+  126,
+  W - mx - pad - 24
+);
+const kpy = 182;
+const kw = Math.floor((W - mx - pad - 48) / 4);
+const kp = [
+  ['Total orders', '412'],
+  ['Active orders', '27'],
+  ['Active workers', '18'],
+  ['Claims needing action', '3']
+];
+for (let i = 0; i < 4; i++) {
+  const kx = mx + i * (kw + 16);
+  rect(scrEnt, C.white, C.slate200, 1, kw, 94, 12, kx, kpy);
+  txt(scrEnt, kp[i][0], 10, 'Semi Bold', C.slate400, kx + 16, kpy + 12);
+  txt(scrEnt, kp[i][1], 26, 'Bold', C.navy, kx + 16, kpy + 34);
+}
+const secY = kpy + 122;
+rect(scrEnt, C.white, C.slate200, 1, W - mx - pad, 196, 12, mx, secY);
+txt(scrEnt, 'Live SLA status', 15, 'Bold', C.navy, mx + 20, secY + 16);
+const bw = Math.floor((W - mx - pad - 80) / 3);
+rect(scrEnt, C.okBg, C.ok, 1, bw, 116, 10, mx + 20, secY + 52);
+rect(scrEnt, C.warnBg, C.warn, 1, bw, 116, 10, mx + 20 + bw + 20, secY + 52);
+rect(scrEnt, C.dangerBg, C.danger, 1, bw, 116, 10, mx + 20 + (bw + 20) * 2, secY + 52);
+txt(scrEnt, '8', 28, 'Bold', C.ok, mx + 36, secY + 78);
+txt(scrEnt, 'ON TIME', 11, 'Semi Bold', C.ok, mx + 26, secY + 132);
+txt(scrEnt, '3', 28, 'Bold', C.warnTxt, mx + 20 + bw + 20 + 28, secY + 78);
+txt(scrEnt, 'AT RISK', 11, 'Semi Bold', C.warnTxt, mx + 20 + bw + 20 + 20, secY + 132);
+txt(scrEnt, '1', 28, 'Bold', C.danger, mx + 20 + (bw + 20) * 2 + 36, secY + 78);
+txt(scrEnt, 'DELAYED', 11, 'Semi Bold', C.danger, mx + 20 + (bw + 20) * 2 + 18, secY + 132);
+txt(scrEnt, 'Platform governance preview →', 12, 'Semi Bold', C.primary, mx, H - 44);
+hit(scrEnt, 'proto-ent-governance', 360, 32, mx, H - 52);
+
+// --- SUPER ADMIN (mirrors super-admin.html dark shell) ---
+const sw = 276;
+rect(scrAdm, C.darkCard, C.darkBr, 1, sw, H, 0, 0, 0);
+txt(scrAdm, 'Vizehelp', 15, 'Bold', C.white, 18, 22);
+txt(scrAdm, 'Super Admin', 15, 'Semi Bold', C.primary, 92, 22);
+let ay = 62;
+function ah(t) {
+  txt(scrAdm, t, 10, 'Semi Bold', C.slate400, 20, ay);
+  ay += 20;
+}
+function ai(l) {
+  txt(scrAdm, l, 12, 'Semi Bold', C.slate400, 16, ay);
+  ay += 34;
+}
+ah('MONITORING');
+ai('Platform dashboard');
+ai('Global order monitoring');
+ai('SLA & fraud alerts');
+ah('GOVERNANCE');
+ai('Enterprise management');
+ai('Worker verification queue');
+ai('Maker-checker queue');
+ah('COMMERCIALS');
+ai('Pricing plan management');
+ai('Payments & reconciliation');
+const ax = sw + 40;
+txt(scrAdm, 'Platform dashboard', 24, 'Bold', C.white, ax, 36);
+txt(scrAdm, 'Enterprises • orders • workers • claims • revenue…', 13, 'Regular', C.darkMuted, ax, 76);
+rect(scrAdm, C.ok, undefined, 0, 168, 32, 999, W - pad - 168, 42);
+scrAdm.children[scrAdm.children.length - 1].opacity = 0.2;
+txt(scrAdm, 'System operational', 12, 'Semi Bold', C.ok, W - pad - 152, 48);
+const stY = 108;
+const sk = Math.floor((W - ax - pad - 48) / 4);
+const st = [
+  ['Active enterprises', '186'],
+  ['Orders (MTD)', '24.2k'],
+  ['Open claims', '74'],
+  ['Platform revenue', '$142k']
+];
+for (let j = 0; j < 4; j++) {
+  const sx0 = ax + j * (sk + 16);
+  rect(scrAdm, C.darkCard, C.darkBr, 1, sk, 92, 12, sx0, stY);
+  txt(scrAdm, st[j][0], 10, 'Semi Bold', C.slate400, sx0 + 16, stY + 12);
+  txt(scrAdm, st[j][1], 26, 'Bold', C.primary, sx0 + 16, st[j][1].includes('$') ? stY + 34 : stY + 34);
+}
+const rowY = stY + 124;
+const colW = Math.floor((W - ax - pad - 24) / 2);
+rect(scrAdm, C.darkCard, C.darkBr, 1, colW, 268, 12, ax, rowY);
+rect(scrAdm, C.darkCard, C.darkBr, 1, colW, 268, 12, ax + colW + 24, rowY);
+txt(scrAdm, 'Action required', 14, 'Bold', C.white, ax + 18, rowY + 16);
+txt(scrAdm, 'Enterprise review · EcoFleet NYC', 12, 'Regular', C.slate400, ax + 18, rowY + 48);
+txt(scrAdm, 'Maker-checker · plan entitlement change', 12, 'Regular', C.slate400, ax + 18, rowY + 74);
+txt(scrAdm, 'High-risk order intervention', 12, 'Regular', C.slate400, ax + 18, rowY + 100);
+txt(scrAdm, 'Platform revenue mix', 14, 'Bold', C.white, ax + colW + 24 + 18, rowY + 16);
+rect(scrAdm, C.darkBg, C.darkBr, 1, colW - 36, 208, 10, ax + colW + 24 + 18, rowY + 48);
+txt(scrAdm, 'Chart placeholder · fees · commission · top-ups', 12, 'Regular', C.slate400, ax + colW + 24 + 70, rowY + 140);
+txt(scrAdm, '← Enterprise portal preview', 12, 'Semi Bold', C.primary, ax, H - 44);
+hit(scrAdm, 'proto-adm-enterprise', 300, 32, ax, H - 52);
+
+// --- Prototype links (Presentation view) ---
+await wireNav(byName(scrHome, 'proto-home-register-nav'), scrSign.id);
+await wireNav(byName(scrHome, 'proto-home-register-hero'), scrSign.id);
+await wireNav(byName(scrHome, 'proto-home-login'), scrEnt.id);
+await wireNav(byName(scrSign, 'proto-sign-back'), scrHome.id);
+await wireNav(byName(scrSign, 'proto-sign-exit'), scrHome.id);
+await wireNav(byName(scrSign, 'proto-sign-continue'), scrVer.id);
+await wireNav(byName(scrVer, 'proto-verify-dashboard'), scrEnt.id);
+await wireNav(byName(scrEnt, 'proto-ent-governance'), scrAdm.id);
+await wireNav(byName(scrAdm, 'proto-adm-enterprise'), scrEnt.id);
+
+return {
+  phase: 'build+prototype',
+  pageId: page.id,
+  frameIds: [scrHome.id, scrSign.id, scrVer.id, scrEnt.id, scrAdm.id],
+  prototypeFlow:
+    'Home→Signup (Register) · Home→Dashboard (Login demo) · Signup→Home (Back/Exit) · Signup→Verification (Continue) · Verification→Dashboard (Approved demo) · Enterprise↔Super Admin (governance preview)'
+};
+

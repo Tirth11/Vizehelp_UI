@@ -1,5 +1,5 @@
 /* ============================================
-   VIZEHELP EVHelpBuddy — Design System
+   VIZEHELP — Multi-Service Design System
    ============================================ */
 @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
 
@@ -19,6 +19,28 @@
     --danger-light: #FEE2E2;
     --info: #6366F1;
     --info-light: #E0E7FF;
+
+    /* ── Service Colors ── */
+    --svc-ev: #3B82F6;
+    --svc-ev-light: #DBEAFE;
+    --svc-laundry: #8B5CF6;
+    --svc-laundry-light: #EDE9FE;
+    --svc-utensil: #F97316;
+    --svc-utensil-light: #FFF7ED;
+    --svc-clean: #06B6D4;
+    --svc-clean-light: #CFFAFE;
+    --svc-parcel: #EAB308;
+    --svc-parcel-light: #FEF9C3;
+    --svc-senior: #EC4899;
+    --svc-senior-light: #FCE7F3;
+    --svc-shop: #14B8A6;
+    --svc-shop-light: #CCFBF1;
+    --svc-parking: #6366F1;
+    --svc-parking-light: #E0E7FF;
+    --svc-maid: #F472B6;
+    --svc-maid-light: #FCE7F3;
+    --svc-care: #78716C;
+    --svc-care-light: #F5F5F4;
 
     /* Neutrals */
     --navy: #0F172A;
@@ -127,6 +149,29 @@ h1, h2, h3, h4 { font-weight: 800; letter-spacing: -0.03em; line-height: 1.15; }
 .badge-info { background: var(--info-light); color: var(--info); }
 .badge-neutral { background: var(--slate-100); color: var(--slate-500); }
 
+/* ── Service Badges ── */
+.badge-ev { background: var(--svc-ev-light); color: var(--svc-ev); }
+.badge-laundry { background: var(--svc-laundry-light); color: var(--svc-laundry); }
+.badge-utensil { background: var(--svc-utensil-light); color: var(--svc-utensil); }
+.badge-clean { background: var(--svc-clean-light); color: var(--svc-clean); }
+.badge-parcel { background: var(--svc-parcel-light); color: var(--svc-parcel); }
+.badge-senior { background: var(--svc-senior-light); color: var(--svc-senior); }
+.badge-shop { background: var(--svc-shop-light); color: var(--svc-shop); }
+.badge-parking { background: var(--svc-parking-light); color: var(--svc-parking); }
+.badge-maid { background: var(--svc-maid-light); color: var(--svc-maid); }
+.badge-care { background: var(--svc-care-light); color: var(--svc-care); }
+
+/* ── Service Filter Chips ── */
+.filter-bar { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 1.5rem; }
+.filter-chip {
+    padding: 0.35rem 0.85rem; border-radius: var(--radius-full);
+    font-size: 0.75rem; font-weight: 700; cursor: pointer;
+    background: var(--slate-100); color: var(--slate-500);
+    border: 1.5px solid transparent; transition: all 0.2s var(--ease);
+}
+.filter-chip:hover { background: var(--primary-light); color: var(--primary); }
+.filter-chip.active { background: var(--primary); color: var(--white); border-color: var(--primary); }
+
 /* ---- Cards ---- */
 .card {
     background: var(--white); border: 1px solid var(--slate-200);
@@ -171,6 +216,13 @@ h1, h2, h3, h4 { font-weight: 800; letter-spacing: -0.03em; line-height: 1.15; }
 .alert-danger { background: var(--danger-light); border: 1px solid var(--danger); color: #991B1B; }
 .alert-info { background: var(--primary-light); border: 1px solid var(--primary); color: var(--primary-dark); }
 
+/* ── Progress Bars ── */
+.progress-bar { height: 6px; background: var(--slate-200); border-radius: 3px; overflow: hidden; }
+.progress-fill { height: 100%; border-radius: 3px; transition: width 0.6s var(--ease); }
+.progress-fill.ok { background: var(--primary); }
+.progress-fill.warn { background: var(--warning); }
+.progress-fill.crit { background: var(--danger); }
+
 /* ---- Utility ---- */
 .flex { display: flex; }
 .flex-col { flex-direction: column; }
@@ -182,6 +234,7 @@ h1, h2, h3, h4 { font-weight: 800; letter-spacing: -0.03em; line-height: 1.15; }
 .grid-2 { grid-template-columns: repeat(2, 1fr); }
 .grid-3 { grid-template-columns: repeat(3, 1fr); }
 .grid-4 { grid-template-columns: repeat(4, 1fr); }
+.grid-5 { grid-template-columns: repeat(5, 1fr); }
 .w-full { width: 100%; }
 .mt-2 { margin-top: var(--sp-2); } .mt-4 { margin-top: var(--sp-4); } .mt-6 { margin-top: var(--sp-6); } .mt-8 { margin-top: var(--sp-8); }
 .mb-2 { margin-bottom: var(--sp-2); } .mb-4 { margin-bottom: var(--sp-4); } .mb-6 { margin-bottom: var(--sp-6); }
@@ -194,9 +247,10 @@ h1, h2, h3, h4 { font-weight: 800; letter-spacing: -0.03em; line-height: 1.15; }
 @keyframes slideUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
 @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
 @keyframes spin { to { transform: rotate(360deg); } }
+@keyframes shimmer { 0% { background-position: -200% 0; } 100% { background-position: 200% 0; } }
 .animate-in { animation: fadeIn 0.4s var(--ease) both; }
 .animate-slide { animation: slideUp 0.5s var(--ease) both; }
 
 /* ---- Responsive ---- */
-@media (max-width: 1024px) { .grid-4 { grid-template-columns: repeat(2, 1fr); } .grid-3 { grid-template-columns: repeat(2, 1fr); } }
-@media (max-width: 768px) { .grid-4, .grid-3, .grid-2 { grid-template-columns: 1fr; } }
+@media (max-width: 1024px) { .grid-4, .grid-5 { grid-template-columns: repeat(2, 1fr); } .grid-3 { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 768px) { .grid-4, .grid-5, .grid-3, .grid-2 { grid-template-columns: 1fr; } }

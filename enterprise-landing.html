@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Vizehelp EVHelpBuddy | Enterprise EV Charging Valet</title>
+<title>Vizehelp | Multi-Service Enterprise Managed Operations</title>
 <link rel="stylesheet" href="css/design-system.css">
 <style>
 /* NAV */
@@ -14,272 +14,279 @@
 .nav-links a:hover{color:var(--primary)}
 
 /* HERO */
-.hero{display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:center;padding:6rem 5%;background:radial-gradient(circle at top right,rgba(59,130,246,.15) 0%,var(--slate-50) 60%);position:relative;overflow:hidden}
-.hero::before{content:'';position:absolute;width:600px;height:600px;background:radial-gradient(circle,rgba(16,185,129,.05),transparent 70%);bottom:-200px;left:-200px;border-radius:50%}
+.hero{display:grid;grid-template-columns:1.2fr 0.8fr;gap:4rem;align-items:center;padding:8rem 5%;background:radial-gradient(circle at top right,rgba(59,130,246,.1) 0%,var(--slate-50) 60%);position:relative;overflow:hidden}
 .hero-content{position:relative;z-index:2}
-.hero h1{font-size:3.5rem;margin-bottom:1.25rem;line-height:1.1;color:var(--navy)}
+.hero h1{font-size:3.8rem;margin-bottom:1.5rem;line-height:1.1;color:var(--navy)}
 .hero h1 em{font-style:normal;color:var(--primary);position:relative}
-.hero h1 em::after{content:'';position:absolute;bottom:4px;left:0;width:100%;height:8px;background:var(--primary-glow);z-index:-1;border-radius:4px}
-.hero p{font-size:1.15rem;color:var(--slate-500);margin-bottom:2.5rem;max-width:540px}
-.hero-cta{display:flex;gap:1rem;margin-bottom:2.5rem}
-.trust-row{display:flex;gap:1.5rem;flex-wrap:wrap}
-.trust-chip{display:flex;align-items:center;gap:.4rem;font-size:.8rem;font-weight:600;color:var(--slate-500)}
-.trust-chip .dot{width:8px;height:8px;border-radius:50%;background:var(--success);box-shadow:0 0 8px var(--success)}
+.hero p{font-size:1.25rem;color:var(--slate-500);margin-bottom:2.5rem;max-width:600px}
+.hero-cta{display:flex;gap:1.25rem;margin-bottom:3rem}
 
-.hero-visual{background:var(--white);border-radius:var(--radius-2xl);box-shadow:var(--shadow-xl);border:1px solid var(--slate-200);overflow:hidden;padding:2rem;min-height:480px;position:relative;z-index:2}
-.mock-bar{height:12px;border-radius:6px;background:var(--slate-100)}
-.mock-bar.blue{background:var(--primary);width:65%}
-.mock-card{background:var(--white);border-radius:var(--radius-lg);padding:1.25rem;margin-top:1.25rem;border:1px solid var(--slate-200);box-shadow:var(--shadow-sm);transition:transform .3s}
-.mock-card:hover{transform:translateY(-2px);box-shadow:var(--shadow)}
+.hero-visual{position:relative;z-index:2}
+.service-float{background:var(--white);border-radius:var(--radius-xl);padding:1.5rem;box-shadow:var(--shadow-xl);border:1px solid var(--slate-200);display:grid;grid-template-columns:repeat(2,1fr);gap:1rem}
+.float-item{display:flex;align-items:center;gap:0.75rem;padding:0.75rem;background:var(--slate-50);border-radius:var(--radius);border:1px solid var(--slate-100)}
+.float-icon{font-size:1.25rem}
 
-/* HOW IT WORKS */
-.section{padding:5rem 5%}
-.section-header{text-align:center;margin-bottom:4rem}
-.section-header h2{font-size:2.5rem;margin-bottom:1rem;color:var(--navy)}
-.section-header p{color:var(--slate-500);max-width:650px;margin:0 auto;font-size:1.1rem}
-.steps-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2rem}
-.step-card{background:var(--white);border:1px solid var(--slate-200);border-radius:var(--radius-xl);padding:2.5rem;transition:all .3s var(--ease);position:relative;overflow:hidden}
-.step-card::before{content:'';position:absolute;top:0;left:0;width:100%;height:4px;background:var(--slate-200);transition:.3s}
-.step-card:hover{transform:translateY(-5px);box-shadow:var(--shadow-lg)}
-.step-card:hover::before{background:var(--primary)}
-.step-num{width:40px;height:40px;background:var(--primary-light);color:var(--primary);border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:1rem;margin-bottom:1.5rem}
-.step-card h3{font-size:1.15rem;margin-bottom:.75rem;color:var(--navy)}
-.step-card p{font-size:.9rem;color:var(--slate-500);line-height:1.6}
+/* SERVICES SECTION */
+.section{padding:8rem 5%}
+.section-header{text-align:center;margin-bottom:5rem}
+.section-header h2{font-size:2.8rem;margin-bottom:1.25rem;color:var(--navy)}
+.section-header p{color:var(--slate-500);max-width:700px;margin:0 auto;font-size:1.15rem}
+
+.services-showcase{display:grid;grid-template-columns:repeat(5,1fr);gap:1.5rem}
+.svc-feature-card{background:var(--white);border:1px solid var(--slate-200);border-radius:var(--radius-xl);padding:2rem;transition:all 0.3s;text-align:center}
+.svc-feature-card:hover{transform:translateY(-8px);border-color:var(--primary);box-shadow:var(--shadow-lg)}
+.svc-feature-icon{font-size:2.5rem;margin-bottom:1.25rem;display:inline-block}
+.svc-feature-card h3{font-size:1.1rem;margin-bottom:0.75rem}
+.svc-feature-card p{font-size:0.85rem;color:var(--slate-500)}
+
+/* INDUSTRIES */
+.industries-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2rem}
+.ind-card{background:var(--white);border-radius:var(--radius-2xl);overflow:hidden;border:1px solid var(--slate-200);transition:0.3s}
+.ind-card:hover{box-shadow:var(--shadow-xl)}
+.ind-img{height:200px;background-color:var(--slate-100);background-size:cover;background-position:center}
+.ind-content{padding:2rem}
+.ind-content h3{margin-bottom:1rem}
+.ind-content ul{list-style:none;padding:0}
+.ind-content li{font-size:0.85rem;color:var(--slate-600);margin-bottom:0.5rem;display:flex;align-items:center;gap:0.5rem}
+.ind-content li::before{content:"•";color:var(--primary);font-weight:bold}
 
 /* PRICING */
-.pricing-section{background:var(--slate-50);padding:6rem 5%}
-.pricing-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1.5rem;align-items:start}
-.price-card{background:var(--white);border:1px solid var(--slate-200);border-radius:var(--radius-2xl);padding:2.5rem 2rem;display:flex;flex-direction:column;transition:.3s;position:relative;box-shadow:var(--shadow-sm)}
-.price-card.popular{border-color:var(--primary);border-width:2px;box-shadow:0 15px 35px var(--primary-glow);transform:scale(1.03);z-index:2}
-.pop-badge{position:absolute;top:-14px;left:50%;transform:translateX(-50%);background:var(--primary);color:var(--white);padding:.3rem 1rem;border-radius:var(--radius-full);font-size:.75rem;font-weight:800;letter-spacing:.05em}
-.price-name{font-size:1.25rem;font-weight:800;margin-bottom:.5rem;color:var(--navy)}
-.price-desc{font-size:.85rem;color:var(--slate-500);margin-bottom:1.5rem;min-height:2.5rem}
-.price-amt{font-size:2.5rem;font-weight:800;margin-bottom:.5rem;color:var(--navy);display:flex;align-items:baseline;gap:.25rem}
-.price-amt small{font-size:1rem;font-weight:500;color:var(--slate-400)}
-.price-features{list-style:none;margin:1.5rem 0 2rem;flex-grow:1}
-.price-features li{font-size:.85rem;padding:.5rem 0;display:flex;align-items:flex-start;gap:.6rem;color:var(--slate-700)}
-.price-features li::before{content:"✓";color:var(--success);font-weight:800;flex-shrink:0;background:var(--success-light);width:18px;height:18px;display:flex;align-items:center;justify-content:center;border-radius:50%;font-size:.6rem;margin-top:2px}
+.pricing-section{background:var(--slate-100);padding:8rem 5%}
+.pricing-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1.5rem}
+.price-card{background:var(--white);border:1px solid var(--slate-200);border-radius:var(--radius-2xl);padding:3rem 2rem;display:flex;flex-direction:column;transition:.3s;position:relative}
+.price-card.popular{border-color:var(--primary);box-shadow:0 20px 40px var(--primary-glow);transform:scale(1.05);z-index:2}
+.pop-tag{position:absolute;top:-15px;left:50%;transform:translateX(-50%);background:var(--primary);color:white;padding:4px 16px;border-radius:20px;font-size:0.7rem;font-weight:800}
+.price-amt{font-size:3rem;font-weight:800;margin:1.5rem 0}
+.price-amt span{font-size:1rem;color:var(--slate-400);font-weight:500}
+.price-features{list-style:none;margin:2rem 0;flex:1}
+.price-features li{font-size:0.85rem;margin-bottom:0.75rem;display:flex;gap:0.75rem;align-items:flex-start}
+.price-features li i{color:var(--success)}
 
 /* TOP-UPS */
-.topups-container{max-width:900px;margin:4rem auto 0;background:var(--white);border-radius:var(--radius-xl);border:1px solid var(--slate-200);padding:3rem;text-align:center;box-shadow:var(--shadow-sm)}
-.topups-container h3{font-size:1.5rem;color:var(--navy);margin-bottom:1rem}
-.topups-container p{color:var(--slate-500);margin-bottom:2rem}
-.topup-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem}
-.topup-item{padding:1.5rem;background:var(--slate-50);border-radius:var(--radius-lg);border:1px solid var(--slate-200)}
-.topup-item h4{font-size:1.1rem;color:var(--navy);margin-bottom:.5rem}
-.topup-item .price{font-size:1.25rem;font-weight:800;color:var(--primary);margin-bottom:.5rem}
-.topup-item p{font-size:.8rem;color:var(--slate-500);margin:0}
-
-/* CTA BANNER */
-.cta-banner{background:linear-gradient(135deg,var(--navy),#1E293B);color:var(--white);text-align:center;padding:5rem 5%;border-radius:var(--radius-2xl);margin:0 5% 5rem;position:relative;overflow:hidden}
-.cta-banner::before{content:'';position:absolute;top:0;left:0;width:100%;height:100%;background:url('data:image/svg+xml;utf8,<svg width="20" height="20" xmlns="http://www.w3.org/2000/svg"><circle cx="2" cy="2" r="1" fill="rgba(255,255,255,0.05)"/></svg>');z-index:0}
-.cta-banner h2{font-size:2.5rem;margin-bottom:1rem;position:relative;z-index:1}
-.cta-banner p{opacity:.85;margin-bottom:2.5rem;max-width:600px;margin-left:auto;margin-right:auto;font-size:1.1rem;position:relative;z-index:1}
+.topups-section{max-width:1000px;margin:5rem auto 0;background:var(--white);border-radius:var(--radius-2xl);padding:4rem;border:1px solid var(--slate-200)}
+.topup-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2rem;margin-top:3rem}
+.topup-card{background:var(--slate-50);padding:2rem;border-radius:var(--radius-xl);text-align:center;border:1px solid var(--slate-200)}
+.topup-card h4{font-size:1rem;margin-bottom:0.5rem}
+.topup-card .val{font-size:1.5rem;font-weight:800;color:var(--primary);margin-bottom:0.5rem}
 
 /* FOOTER */
-footer{background:var(--white);border-top:1px solid var(--slate-200);padding:4rem 5% 2rem}
-.footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr 1fr;gap:3rem;margin-bottom:3rem}
-.footer-logo{font-size:1.4rem;font-weight:800;margin-bottom:1rem;color:var(--navy)}
+footer{background:var(--navy);color:white;padding:6rem 5% 2rem}
+.footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr 1fr;gap:4rem;margin-bottom:4rem}
+.footer-logo{font-size:1.5rem;font-weight:800;margin-bottom:1.5rem}
 .footer-logo span{color:var(--primary)}
-.ftr-col h4{font-size:.95rem;margin-bottom:1.25rem;color:var(--navy)}
+.ftr-col h4{margin-bottom:1.5rem;font-size:1rem;color:var(--slate-300)}
 .ftr-col ul{list-style:none}
-.ftr-col li{margin-bottom:.75rem}
-.ftr-col a{color:var(--slate-500);font-size:.88rem;transition:.2s}
+.ftr-col li{margin-bottom:0.75rem}
+.ftr-col a{color:var(--slate-400);font-size:0.9rem;transition:0.2s}
 .ftr-col a:hover{color:var(--primary)}
-.footer-bottom{border-top:1px solid var(--slate-200);padding-top:1.5rem;text-align:center;color:var(--slate-400);font-size:.8rem}
 
-@media(max-width:1024px){.hero,.steps-grid,.pricing-grid,.topup-grid{grid-template-columns:1fr}.hero h1{font-size:2.5rem}.footer-grid{grid-template-columns:1fr 1fr}}
+@media(max-width:1200px){.pricing-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:1024px){.hero{grid-template-columns:1fr}.services-showcase{grid-template-columns:repeat(3,1fr)}.industries-grid{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
 
 <nav class="site-nav">
-    <div class="logo">Vizehelp <span>EVHelpBuddy</span></div>
+    <div class="logo">Vizehelp <span>Managed Ops</span></div>
     <div class="nav-links">
-        <a href="#how">How It Works</a>
+        <a href="#services">Services</a>
+        <a href="#industries">Industries</a>
         <a href="#pricing">Pricing</a>
-        <a href="enterprise-login.html" class="btn btn-outline btn-sm">Enterprise Login</a>
-        <a href="enterprise-signup.html" class="btn btn-primary btn-sm">Start Enterprise Signup</a>
+        <a href="enterprise-login.html" class="btn btn-outline btn-sm">Sign In</a>
+        <a href="enterprise-signup.html" class="btn btn-primary btn-sm">Get Started</a>
     </div>
 </nav>
 
-<!-- HERO -->
 <section class="hero">
     <div class="hero-content">
-        <h1>Offer premium <em>EV charging valet</em> services for your business.</h1>
-        <p>Manage verified charging buddies, track live orders, and deliver a seamless EV experience to your customers, employees, and residents.</p>
+        <h1>Unified <em>Managed Operations</em> for the Modern Enterprise.</h1>
+        <p>A single B2B platform to enable, manage, and scale essential services across all your locations. Onboard verified workers and let your stakeholders book with confidence.</p>
         <div class="hero-cta">
-            <a href="enterprise-signup.html" class="btn btn-primary btn-lg" style="padding:1rem 2rem;font-size:1.05rem">Get Started Free</a>
-            <a href="#pricing" class="btn btn-outline btn-lg" style="padding:1rem 2rem;font-size:1.05rem;background:var(--white)">View Pricing</a>
+            <a href="enterprise-signup.html" class="btn btn-primary btn-lg">Deploy Your Platform</a>
+            <a href="#pricing" class="btn btn-outline btn-lg" style="background:white">Explore Plans</a>
         </div>
-        <div class="trust-row">
-            <span class="trust-chip"><span class="dot"></span> Verified Buddies</span>
-            <span class="trust-chip"><span class="dot"></span> Live Tracking</span>
-            <span class="trust-chip"><span class="dot"></span> SLA Monitoring</span>
+        <div class="flex gap-6 mt-8">
+            <div class="flex items-center gap-2 text-sm font-bold text-slate-600"><span style="color:var(--success)">✓</span> 10 Managed Services</div>
+            <div class="flex items-center gap-2 text-sm font-bold text-slate-600"><span style="color:var(--success)">✓</span> Verified Worker Model</div>
+            <div class="flex items-center gap-2 text-sm font-bold text-slate-600"><span style="color:var(--success)">✓</span> Enterprise Dashboard</div>
         </div>
     </div>
     <div class="hero-visual">
-        <div style="display:flex;gap:1rem;margin-bottom:2rem;align-items:center">
-            <div style="width:40px;height:40px;border-radius:10px;background:var(--primary-light);display:flex;align-items:center;justify-content:center;color:var(--primary);font-size:1.2rem">📊</div>
-            <div style="flex:1"><div class="mock-bar" style="width:50%;margin-bottom:8px"></div><div class="mock-bar" style="width:30%"></div></div>
+        <div class="service-float">
+            <div class="float-item"><span class="float-icon">⚡</span> <span class="text-xs font-bold">EV Charging</span></div>
+            <div class="float-item"><span class="float-icon">👕</span> <span class="text-xs font-bold">Laundry</span></div>
+            <div class="float-item"><span class="float-icon">🏠</span> <span class="text-xs font-bold">Cleaning</span></div>
+            <div class="float-item"><span class="float-icon">📦</span> <span class="text-xs font-bold">Delivery</span></div>
+            <div class="float-item"><span class="float-icon">🛒</span> <span class="text-xs font-bold">Shopping</span></div>
+            <div class="float-item"><span class="float-icon">🚗</span> <span class="text-xs font-bold">Parking</span></div>
+            <div class="float-item"><span class="float-icon">🤝</span> <span class="text-xs font-bold">Seniors</span></div>
+            <div class="float-item"><span class="float-icon">🔧</span> <span class="text-xs font-bold">Care</span></div>
         </div>
-        <div class="mock-card">
-            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem">
-                <div style="font-weight:800;color:var(--navy)">Active Dispatch #ORD-402</div>
-                <span class="badge badge-warning">2m Wait</span>
+    </div>
+</section>
+
+<section class="section" id="services">
+    <div class="section-header">
+        <h2>10 Services. One Platform.</h2>
+        <p>Enable any combination of these services across your locations. Vizehelp provides the worker verification, booking infrastructure, and SLA management.</p>
+    </div>
+    <div class="services-showcase">
+        <div class="svc-feature-card"><span class="svc-feature-icon">⚡</span><h3>EVHelpBuddy</h3><p>Pickup, charge & return</p></div>
+        <div class="svc-feature-card"><span class="svc-feature-icon">👕</span><h3>LaundryBuddy</h3><p>Wash & delivery</p></div>
+        <div class="svc-feature-card"><span class="svc-feature-icon">🍽</span><h3>UtensilBuddy</h3><p>Cleaning service</p></div>
+        <div class="svc-feature-card"><span class="svc-feature-icon">🏠</span><h3>CleanBuddy</h3><p>Office & home cleaning</p></div>
+        <div class="svc-feature-card"><span class="svc-feature-icon">📦</span><h3>ParcelBuddy</h3><p>Pickup & delivery</p></div>
+        <div class="svc-feature-card"><span class="svc-feature-icon">🤝</span><h3>SeniorBuddy</h3><p>Seniors assistance</p></div>
+        <div class="svc-feature-card"><span class="svc-feature-icon">🛒</span><h3>ShopBuddy</h3><p>Personal shopping</p></div>
+        <div class="svc-feature-card"><span class="svc-feature-icon">🚗</span><h3>ParkingBuddy</h3><p>Valet & parking ops</p></div>
+        <div class="svc-feature-card"><span class="svc-feature-icon">✨</span><h3>MaidBuddy</h3><p>Scheduled services</p></div>
+        <div class="svc-feature-card"><span class="svc-feature-icon">🔧</span><h3>CareBuddy</h3><p>Vehicle maintenance</p></div>
+    </div>
+</section>
+
+<section class="section" id="industries" style="background:var(--slate-50)">
+    <div class="section-header">
+        <h2>Designed for Your Industry</h2>
+        <p>Vizehelp adapts to the unique operational requirements of your business type.</p>
+    </div>
+    <div class="industries-grid">
+        <div class="ind-card">
+            <div class="ind-img" style="background-image:url('https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&q=80&w=800')"></div>
+            <div class="ind-content">
+                <h3>Corporate Offices</h3>
+                <ul><li>EV Charging Valet</li><li>Laundry & Dry Cleaning</li><li>Office Cleaning</li><li>Parcel Delivery</li><li>Shopping Assistance</li></ul>
             </div>
-            <div style="font-size:.8rem;color:var(--slate-500);margin-bottom:1rem">Tesla Model 3 • Downtown Hub</div>
-            <div style="background:var(--slate-100);border-radius:4px;height:6px"><div class="mock-bar blue"></div></div>
         </div>
-        <div class="mock-card" style="background:var(--navy);border-color:var(--navy)">
-            <div style="display:flex;justify-content:space-between;align-items:center">
-                <div>
-                    <div style="font-size:.75rem;color:var(--slate-300);margin-bottom:.25rem">Customer Return OTP</div>
-                    <div style="font-size:1.5rem;font-weight:800;color:var(--white);letter-spacing:4px">4 0 2 9</div>
-                </div>
-                <div style="width:36px;height:36px;border-radius:50%;background:rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center;color:var(--white)">✓</div>
+        <div class="ind-card">
+            <div class="ind-img" style="background-image:url('https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&q=80&w=800')"></div>
+            <div class="ind-content">
+                <h3>Hotels & Hospitality</h3>
+                <ul><li>Valet & Parking</li><li>Guest Laundry</li><li>Daily Cleaning</li><li>Senior Assistance</li><li>Shopping & Concierge</li></ul>
+            </div>
+        </div>
+        <div class="ind-card">
+            <div class="ind-img" style="background-image:url('https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&q=80&w=800')"></div>
+            <div class="ind-content">
+                <h3>Residential Societies</h3>
+                <ul><li>Home Maid Services</li><li>EV Charging</li><li>Laundry Pickup</li><li>Parcel Handling</li><li>Senior Care</li></ul>
             </div>
         </div>
     </div>
 </section>
 
-<!-- HOW IT WORKS -->
-<section class="section" id="how">
+<section class="section" id="pricing">
     <div class="section-header">
-        <h2>Enterprise Onboarding in 6 Steps</h2>
-        <p>A streamlined KYB (Know Your Business) workflow to get your verified charging fleet operational quickly and securely.</p>
+        <h2>Multi-Service Pricing Plans</h2>
+        <p>Choose a plan that fits your scale. All plans include the core management portal.</p>
     </div>
-    <div class="steps-grid">
-        <div class="step-card"><div class="step-num">1</div><h3>Enterprise Signs Up</h3><p>Create your account, provide business details, and set up your primary authorized contact.</p></div>
-        <div class="step-card"><div class="step-num">2</div><h3>Select Plan & Top-Ups</h3><p>Choose from our scalable plans. Add extra locations, buddies, or orders as needed.</p></div>
-        <div class="step-card"><div class="step-num">3</div><h3>Business Verification</h3><p>Upload your KYB documents for fast approval by the Vizehelp compliance team.</p></div>
-        <div class="step-card"><div class="step-num">4</div><h3>Add Service Locations</h3><p>Register your corporate offices, hotels, or residential societies and configure business rules.</p></div>
-        <div class="step-card"><div class="step-num">5</div><h3>Invite Customers & Buddies</h3><p>Manage access control for your customers and invite verified charging buddies.</p></div>
-        <div class="step-card"><div class="step-num">6</div><h3>Live SLA Dispatch</h3><p>Monitor real-time orders, manage claims, and track carbon savings via the dashboard.</p></div>
-    </div>
-</section>
-
-<!-- PRICING -->
-<section class="pricing-section" id="pricing">
-    <div class="section-header">
-        <h2>Flexible Subscription Plans</h2>
-        <p>Scale your EV valet operations seamlessly. Upgrade or buy top-ups anytime as your business grows.</p>
-    </div>
-    
     <div class="pricing-grid">
         <div class="price-card">
-            <div class="price-name">Basic</div>
-            <div class="price-desc">Perfect for small offices and residential societies.</div>
-            <div class="price-amt">$299<small>/mo</small></div>
+            <h3>Basic</h3>
+            <div class="price-amt">$299<span>/mo</span></div>
             <ul class="price-features">
-                <li><strong>1</strong> Service Location</li>
-                <li>Up to <strong>10</strong> Buddies</li>
-                <li><strong>50</strong> Orders/mo</li>
-                <li>Standard Dashboard</li>
-                <li>Basic Access Control</li>
+                <li>1 Service Location</li>
+                <li>Up to 2 Services Enabled</li>
+                <li>10 Workers Total</li>
+                <li>50 Orders / Month</li>
+                <li>Basic Dashboard</li>
             </ul>
-            <a href="enterprise-signup.html" class="btn btn-outline btn-block" style="padding:1rem">Start Basic</a>
+            <a href="enterprise-signup.html" class="btn btn-outline btn-block">Get Started</a>
         </div>
-        
         <div class="price-card popular">
-            <div class="pop-badge">MOST POPULAR</div>
-            <div class="price-name">Standard</div>
-            <div class="price-desc">Ideal for malls, hotels, and mid-size businesses.</div>
-            <div class="price-amt">$799<small>/mo</small></div>
+            <div class="pop-tag">MOST POPULAR</div>
+            <h3>Standard</h3>
+            <div class="price-amt">$799<span>/mo</span></div>
             <ul class="price-features">
-                <li><strong>5</strong> Service Locations</li>
-                <li>Up to <strong>25</strong> Buddies</li>
-                <li><strong>200</strong> Orders/mo</li>
-                <li>Live Dispatch Board</li>
-                <li>Advanced Reports</li>
-                <li>Claims Workflow</li>
+                <li>5 Service Locations</li>
+                <li>Up to 4 Services Enabled</li>
+                <li>25 Workers / Service</li>
+                <li>200 Orders / Month</li>
+                <li>Live Tracking & Claims</li>
             </ul>
-            <a href="enterprise-signup.html" class="btn btn-primary btn-block" style="padding:1rem">Choose Standard</a>
+            <a href="enterprise-signup.html" class="btn btn-primary btn-block">Get Started</a>
         </div>
-        
         <div class="price-card">
-            <div class="price-name">Advanced</div>
-            <div class="price-desc">For large corporate hubs and parking operators.</div>
-            <div class="price-amt">$1,999<small>/mo</small></div>
+            <h3>Advanced</h3>
+            <div class="price-amt">$1,999<span>/mo</span></div>
             <ul class="price-features">
-                <li><strong>20</strong> Service Locations</li>
-                <li>Up to <strong>75</strong> Buddies</li>
-                <li><strong>750</strong> Orders/mo</li>
-                <li>SLA Monitoring & Alerts</li>
-                <li>User Role Management</li>
-                <li>Pricing & Subsidy Rules</li>
+                <li>20 Service Locations</li>
+                <li>All Services Enabled</li>
+                <li>75 Workers / Service</li>
+                <li>750 Orders / Month</li>
+                <li>Advanced SLA & Roles</li>
             </ul>
-            <a href="enterprise-signup.html" class="btn btn-outline btn-block" style="padding:1rem">Choose Advanced</a>
+            <a href="enterprise-signup.html" class="btn btn-outline btn-block">Get Started</a>
         </div>
-        
         <div class="price-card">
-            <div class="price-name">Enterprise</div>
-            <div class="price-desc">Unlimited scaling for national fleets and airports.</div>
+            <h3>Enterprise</h3>
             <div class="price-amt">Custom</div>
             <ul class="price-features">
                 <li>Custom Locations</li>
-                <li>Unlimited Buddies</li>
-                <li>Custom Order Limits</li>
-                <li>White-Label App Portal</li>
-                <li>API & HRMS Integrations</li>
-                <li>Dedicated Success Manager</li>
+                <li>Unlimited Services</li>
+                <li>Custom Worker Limits</li>
+                <li>Custom Order Volume</li>
+                <li>API & White-label</li>
             </ul>
-            <a href="#" class="btn btn-outline btn-block" style="padding:1rem">Contact Sales</a>
+            <a href="enterprise-signup.html" class="btn btn-outline btn-block">Contact Sales</a>
         </div>
     </div>
 
-    <!-- TOP UPS SECTION -->
-    <div class="topups-container">
-        <h3>Need More Capacity? Buy Top-Ups Anytime</h3>
-        <p>Don't want to upgrade your whole plan? Purchase add-ons directly from your enterprise dashboard.</p>
+    <div class="topups-section">
+        <h3 class="text-center">On-Demand Capacity Top-Ups</h3>
+        <p class="text-center text-muted">Scale individual resources without changing your core plan.</p>
         <div class="topup-grid">
-            <div class="topup-item">
-                <h4>🤝 Extra Buddies</h4>
-                <div class="price">$50/mo</div>
-                <p>Bundle of 5 additional verified buddy slots</p>
-            </div>
-            <div class="topup-item">
-                <h4>📍 Extra Locations</h4>
-                <div class="price">$100/mo</div>
-                <p>Add 1 additional service location</p>
-            </div>
-            <div class="topup-item">
-                <h4>📋 Extra Orders</h4>
-                <div class="price">$150/mo</div>
-                <p>Bundle of 100 extra monthly order credits</p>
-            </div>
-        </div>
-        <div style="margin-top:2rem;font-size:.85rem;color:var(--slate-500)">
-            <strong>Usage Alerts:</strong> We automatically notify you when you reach 70% and 85% of your limits, so your operations are never interrupted.
+            <div class="topup-card"><h4>Workers</h4><div class="val">$50</div><p class="text-xs">Add 5 worker slots</p></div>
+            <div class="topup-card"><h4>Locations</h4><div class="val">$100</div><p class="text-xs">Add 1 location slot</p></div>
+            <div class="topup-card"><h4>Orders</h4><div class="val">$150</div><p class="text-xs">Add 100 order credits</p></div>
         </div>
     </div>
 </section>
 
-<!-- CTA -->
-<div class="cta-banner">
-    <div style="position:relative;z-index:1">
-        <h2>Ready to elevate your EV charging strategy?</h2>
-        <p>Join leading enterprises using Vizehelp EVHelpBuddy to deliver seamless, verified charging valet services.</p>
-        <div style="display:flex;gap:1rem;justify-content:center">
-            <a href="enterprise-signup.html" class="btn btn-lg" style="background:var(--primary);color:var(--white);border:none">Create Enterprise Account</a>
-            <a href="enterprise-login.html" class="btn btn-lg" style="background:transparent;color:var(--white);border:2px solid rgba(255,255,255,.3)">Sign In</a>
-        </div>
-    </div>
-</div>
-
-<!-- FOOTER -->
 <footer>
     <div class="footer-grid">
         <div>
-            <div class="footer-logo">Vizehelp <span>EVHelpBuddy</span></div>
-            <p style="color:var(--slate-500);font-size:.85rem;line-height:1.6;max-width:280px">The enterprise-grade EV charging valet platform. Verified buddies, live tracking, and complete operational control.</p>
+            <div class="footer-logo">Vizehelp <span>Managed Ops</span></div>
+            <p style="color:var(--slate-400);font-size:0.85rem">The infrastructure layer for modern managed services. Verified workers, unified operations, and complete visibility.</p>
         </div>
-        <div class="ftr-col"><h4>Product</h4><ul><li><a href="#how">How It Works</a></li><li><a href="#pricing">Pricing & Top-Ups</a></li><li><a href="#">SLA & Dispatch</a></li><li><a href="#">Safety & Claims</a></li></ul></div>
-        <div class="ftr-col"><h4>Company</h4><ul><li><a href="#">About Us</a></li><li><a href="#">Careers</a></li><li><a href="#">Contact Sales</a></li></ul></div>
-        <div class="ftr-col"><h4>Portals</h4><ul><li><a href="enterprise-login.html">Enterprise Login</a></li><li><a href="#">Buddy Portal</a></li><li><a href="#">Customer App</a></li></ul></div>
-        <div class="ftr-col"><h4>Legal</h4><ul><li><a href="#">Privacy Policy</a></li><li><a href="#">Terms of Service</a></li></ul></div>
+        <div class="ftr-col">
+            <h4>Services</h4>
+            <ul>
+                <li><a href="#">EV Charging</a></li>
+                <li><a href="#">Laundry</a></li>
+                <li><a href="#">Cleaning</a></li>
+                <li><a href="#">Delivery</a></li>
+            </ul>
+        </div>
+        <div class="ftr-col">
+            <h4>Industries</h4>
+            <ul>
+                <li><a href="#">Corporate</a></li>
+                <li><a href="#">Hospitality</a></li>
+                <li><a href="#">Residential</a></li>
+                <li><a href="#">Retail</a></li>
+            </ul>
+        </div>
+        <div class="ftr-col">
+            <h4>Platform</h4>
+            <ul>
+                <li><a href="#">Enterprise Portal</a></li>
+                <li><a href="#">Buddy App</a></li>
+                <li><a href="#">SLA Management</a></li>
+                <li><a href="#">Claims</a></li>
+            </ul>
+        </div>
+        <div class="ftr-col">
+            <h4>Company</h4>
+            <ul>
+                <li><a href="#">About</a></li>
+                <li><a href="#">Contact</a></li>
+                <li><a href="#">Legal</a></li>
+            </ul>
+        </div>
     </div>
-    <div class="footer-bottom">© 2026 Vizehelp. All rights reserved.</div>
+    <div style="border-top:1px solid rgba(255,255,255,0.1);padding-top:2rem;text-align:center;font-size:0.8rem;color:var(--slate-500)">
+        © 2026 Vizehelp. All rights reserved.
+    </div>
 </footer>
 
 </body>
